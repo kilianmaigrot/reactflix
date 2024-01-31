@@ -1,0 +1,61 @@
+{
+  "login": "Login",
+  "signUp": "Inscription",
+  "welcomeMessage": "Bienvenue sur cette application en React",
+
+  "formT": {
+    "editInfosFormTitle": "Modifier mes informations",
+    "editPasswordFormTitle": "Changer mon mot de passe",
+    "backIndex": "Retour à l'accueil",
+    "loginFormTitle": "Se connecter <span>à React</span>",
+    "forgotPassword": "Mot de passe oublié ?",
+    "noAccount": "Pas de compte ? <a href='/inscription'>Veuillez vous enregistrer ici</a>",
+
+    "registerFormTitle": "Inscrivez-vous pour accéder à toutes <span>les fonctionnalités.</span>",
+    "backLogin": "Retour à la connexion",
+
+    "nameLabel": "Nom",
+    "namePlaceholder": "Entrez votre nom",
+
+    "surnameLabel": "Prénom",
+    "surnamePlaceholder": "Entrez votre prénom",
+
+    "emailLabel": "Adresse email",
+    "emailPlaceholder": "Entrez votre adresse email",
+
+    "passwordLabel": "Mot de passe",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "passwordOldLabel": "Mot de passe actuel",
+    "passwordNewLabel": "Nouveau mot de passe",
+
+    "errorMessages": {
+      "empty": "Champ obligatoire",
+      "name": "Merci de saisir un nom avec au moins 2 caractères",
+      "surname": "Merci de saisir un prénom avec au moins 2 caractères",
+      "email": "Merci de saisir une adresse email valide",
+      "password": "Merci de saisir un mot de passe valide (8 caractères minimum, une majuscule et un chiffre)"
+    },
+
+    "errorsTop": {
+      "errorLogin": "Utilisateur non trouvé, veuillez vérifier vos identifiants",
+      "errorServer": "Connexion impossible, veuillez rententer la connexion d\"ici quelques minutes ou contactez votre administrateur réseau",
+      "errorToken": "Merci de vous connecter pour accéder à cette page",
+      "inscriptionOk": "Inscription validée, vous pouvez maintenant vous connecter avec vos identifiants",
+      "editOk": "Les modifications ont bien été prises en compte !",
+      "editWrongPassword": "Mot de passe incorrect, merci de vérifier votre saisie.",
+      "editPasswordSuccess": "Votre mot de passe a bien été modifié !"
+    }
+  },
+
+  "confirm": "Confirmer",
+  "cancel": "Annuler",
+  "logout": "Se déconnecter",
+  "close": "Fermer cette fenêtre",
+  "userInfos": "Mes informations",
+  "editInfos": "Modifier mes informations",
+  "editPassword": "Changer mon mot de passe",
+
+  "userMessage": "Bonjour {{surname}} {{name}}, vous êtes l'utilisateur n°{{idUser}}, connecté avec votre adresse email {{email}}.",
+  "logoutMessage": "Déconnexion en cours",
+  "welcome": "Bienvenue"
+}

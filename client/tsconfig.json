@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "target": "ES6",
+      "resolveJsonModule": true,
+      "baseUrl": "./src",
+      "jsx": "react",
+      "esModuleInterop": true,
+      "paths": {
+        "*": ["types/*"]
+      },
+      "moduleResolution": "node",
+      "typeRoots" : ["node_modules/@types", "src/types"],
+      "experimentalDecorators": true
+    },
+  }

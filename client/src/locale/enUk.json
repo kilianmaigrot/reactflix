@@ -1,0 +1,64 @@
+{
+  "login": "Log In",
+  "signUp": "Register",
+  "welcomeMessage": "Welcome to the React Login app",
+
+  "formT": {
+    "editInfosFormTitle": "Edit my informations",
+    "editPasswordFormTitle": "Change my password",
+    "loginFormTitle": "Log into <span>React</span>",
+    "backIndex": "Back to home",
+    "forgotPassword": "Forgot password ?",
+    "noAccount": "Need an account ? <a href='/inscription'>Register here</a>",
+
+    "registerFormTitle": "Register now to access to <span>all fonctionnalities.</span>",
+    "backLogin": "Back to login",
+
+    "nameLabel": "Name",
+    "namePlaceholder": "Input your name",
+
+    "surnameLabel": "Surname",
+    "surnamePlaceholder": "Input your surname",
+
+    "emailLabel": "E-mail address",
+    "emailPlaceholder": "Input your Email",
+
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Choose a password",
+    "passwordOldLabel": "Current password",
+    "passwordNewLabel": "New password",
+
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+
+    "errorMessages": {
+      "empty": "Required input",
+      "name": "Please input a name with at least 2 character",
+      "surname": "Please input a surname with at least 2 character",
+      "email": "Please input a valid email address",
+      "password": "Please input a valid password (Min 8 characters, including a number and a captalized letter)"
+    },
+
+    "errorsTop": {
+      "errorLogin": "Invalid Login or password",
+      "errorServer": "Network error, please try again in a few minutes or contat your network administrator",
+      "errorToken": "You need to be logged in to access this page",
+      "inscriptionOk": "Register complete, you can now log in with your credentials",
+      "editOk": "Your information has been edited successfully!",
+      "editWrongPassword": "Incorrect password, please check your input",
+      "editPasswordSuccess": "Your password has been edited successfully!"
+    }
+  },
+
+  "confirm": "Confirm",
+  "cancel": "Cancel",
+  "logout": "Log Out",
+  "close": "Close this window",
+  "userInfos": "My informations",
+  "editInfos": "Edit my informations",
+  "editPassword": "Change my password",
+
+  "userMessage": "Welcome {{surname}} {{name}}, you are user n°{{idUser}}, now logged in with your email {{email}}.",
+  "logoutMessage": "Logging out",
+  "welcome": "Welcome"
+}
