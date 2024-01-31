@@ -2,14 +2,14 @@ import React, { FC, ChangeEvent, FocusEvent } from 'react';
 import * as SC from './input.style';
 
 interface InputComponentProps {
-  name: string
-  type: string
-  label: string
-  placeHolder: string
-  errorMessage: string
-  onBlur: (event: FocusEvent<HTMLInputElement>) => void
-  value: string
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void
+  name: string;
+  type: string;
+  label: string;
+  placeHolder: string;
+  errorMessage: string;
+  onBlur: (event: FocusEvent<HTMLInputElement>) => void;
+  value: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const InputComponent: FC<InputComponentProps> = ({

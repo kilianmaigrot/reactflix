@@ -5,7 +5,7 @@ import LightModeIcon from './img/LightModeIcon.png';
 import { useStyleThemeContext } from '../../context/style-context';
 
 interface DarkmodeToggleButtonProps {
-  toggled: boolean
+  toggled: boolean;
 }
 
 const DarkmodeToggleButton: FC<DarkmodeToggleButtonProps> = ({ toggled }) => {
@@ -20,12 +20,12 @@ const DarkmodeToggleButton: FC<DarkmodeToggleButtonProps> = ({ toggled }) => {
 
   return (
     <SC.ToggleContainer>
-      <SC.IconLightmode $darkmode={isToggled} src={LightModeIcon} alt="Light Mode Icon" />
+      <SC.IconLightmode $darkmode={isToggled} src={LightModeIcon as string} alt='Light Mode Icon' />
       <SC.ToggleLabel>
-        <SC.ToggleInput type="checkbox" defaultChecked={isToggled} onClick={callback} />
+        <SC.ToggleInput type='checkbox' defaultChecked={isToggled} onClick={callback} />
         <SC.ToggleSpan />
       </SC.ToggleLabel>
-      <SC.IconLightmode $darkmode={isToggled} src={DarkModeIcon} alt="Dark Mode Icon" />
+      <SC.IconLightmode $darkmode={isToggled} src={DarkModeIcon as string} alt='Dark Mode Icon' />
     </SC.ToggleContainer>
   );
 };

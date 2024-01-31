@@ -4,10 +4,10 @@ import * as SC from './userPage.style';
 import { EditInfosFormComponent, EditPasswordFormComponent } from '../Forms';
 
 interface UserPageComponentProps extends WithTranslation {
-  name: string
-  surname: string
-  email: string
-  idUser: string
+  name: string;
+  surname: string;
+  email: string;
+  idUser: string;
 }
 
 const UserPageComponent: FC<UserPageComponentProps> = ({
@@ -24,7 +24,10 @@ const UserPageComponent: FC<UserPageComponentProps> = ({
       <SC.LeftSideContainer>
         <SC.TextParagraph>
           {t('userMessage', {
-            surname, name, idUser, email,
+            surname,
+            name,
+            idUser,
+            email,
           })}
         </SC.TextParagraph>
         <SC.ButtonArea>
@@ -35,15 +38,21 @@ const UserPageComponent: FC<UserPageComponentProps> = ({
             {t('editPassword')}
           </SC.FormButton>
           <SC.FormButton>
-            <a href="/logout">{t('logout')}</a>
+            <a href='/logout'>{t('logout')}</a>
           </SC.FormButton>
         </SC.ButtonArea>
       </SC.LeftSideContainer>
 
       <SC.RightSideContainer $display={displayedForm !== 'none'}>
-        <button type="button" onClick={() => setDisplayedForm("none")} tabIndex={0} aria-label={t("close")} >
-          {t("close")}
-        </button>;
+        <button
+          type='button'
+          onClick={() => setDisplayedForm('none')}
+          tabIndex={0}
+          aria-label={t('close')}
+        >
+          {t('close')}
+        </button>
+        ;
         <SC.FormContainer $display={displayedForm === 'editInfos'}>
           <EditInfosFormComponent />
         </SC.FormContainer>

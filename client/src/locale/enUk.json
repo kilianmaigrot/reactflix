@@ -42,6 +42,7 @@
     "errorsTop": {
       "errorLogin": "Invalid Login or password",
       "errorServer": "Network error, please try again in a few minutes or contat your network administrator",
+      "errorExistingUser": "An user already exists with this email address",
       "errorToken": "You need to be logged in to access this page",
       "inscriptionOk": "Register complete, you can now log in with your credentials",
       "editOk": "Your information has been edited successfully!",

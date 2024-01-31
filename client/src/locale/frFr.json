@@ -39,6 +39,7 @@
     "errorsTop": {
       "errorLogin": "Utilisateur non trouvé, veuillez vérifier vos identifiants",
       "errorServer": "Connexion impossible, veuillez rententer la connexion d\"ici quelques minutes ou contactez votre administrateur réseau",
+      "errorExistingUser": "Un utilisateur existe déjà avec cette adresse email",
       "errorToken": "Merci de vous connecter pour accéder à cette page",
       "inscriptionOk": "Inscription validée, vous pouvez maintenant vous connecter avec vos identifiants",
       "editOk": "Les modifications ont bien été prises en compte !",

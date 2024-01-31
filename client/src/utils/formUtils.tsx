@@ -3,14 +3,14 @@ import { useTranslation } from 'react-i18next';
 const { t } = useTranslation();
 
 // Messages d'erreur traduits avec 18n
-interface errorMessagesProps {
-  empty: string,
-  name: string,
-  surname: string,
-  email: string,
-  password: string,
+interface ErrorMessagesProps {
+  empty: string;
+  name: string;
+  surname: string;
+  email: string;
+  password: string;
 }
-export const errorMessages: errorMessagesProps =  {
+export const errorMessages: ErrorMessagesProps = {
   empty: t('errorMessages.empty'),
   name: t('errorMessages.name'),
   surname: t('errorMessages.surname'),
@@ -19,13 +19,13 @@ export const errorMessages: errorMessagesProps =  {
 };
 
 // Regex de chaque champ
-interface regexPatternsProps {
-  name: RegExp,
-  surname: RegExp,
-  email: RegExp,
-  password: RegExp,
+interface RegexPatternsProps {
+  name: RegExp;
+  surname: RegExp;
+  email: RegExp;
+  password: RegExp;
 }
-export const regexPatterns: regexPatternsProps = {
+export const regexPatterns: RegexPatternsProps = {
   name: /^[A-Za-zÀ-ÖØ-öø-ÿ]{2,}$/,
   surname: /^[A-Za-zÀ-ÖØ-öø-ÿ]{2,}$/,
   email: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
@@ -33,16 +33,16 @@ export const regexPatterns: regexPatternsProps = {
 };
 
 // Messages affichés en haut
-interface errorsTopProps {
-  errorLogin: string,
-  errorServer: string,
-  errorToken: string,
-  inscriptionOk: string,
-  editOk: string,
-  editWrongPassword: string,
-  editPasswordSuccess: string,
+interface ErrorsTopProps {
+  errorLogin: string;
+  errorServer: string;
+  errorToken: string;
+  inscriptionOk: string;
+  editOk: string;
+  editWrongPassword: string;
+  editPasswordSuccess: string;
 }
-export const errorsTop : errorsTopProps = {
+export const errorsTop: ErrorsTopProps = {
   errorLogin: t('errorsTop.errorLogin'),
   errorServer: t('errorsTop.errorServer'),
   errorToken: t('errorsTop.errorToken'),
@@ -50,13 +50,4 @@ export const errorsTop : errorsTopProps = {
   editOk: t('errorsTop.editOk'),
   editWrongPassword: t('errorsTop.editWrongPassword'),
   editPasswordSuccess: t('errorsTop.editPasswordSuccess'),
-};
-
-// Objet errorsDefault
-export const errorsDefault = {
-  name: '',
-  surname: '',
-  email: '',
-  password: '',
-  register: '',
 };

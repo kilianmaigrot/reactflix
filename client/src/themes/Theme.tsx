@@ -2,10 +2,10 @@ import bgLight from './img/LightBackground.jpg';
 import bgDark from './img/DarkBackground.jpg';
 
 export interface Theme {
-  background: string
-  top: string
-  bgImage: string
-  fontFamily: string
+  background: string;
+  top: string;
+  bgImage: string;
+  fontFamily: string;
 }
 
 const commonProperties = {

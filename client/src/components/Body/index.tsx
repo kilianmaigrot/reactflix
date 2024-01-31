@@ -9,8 +9,8 @@ import { useUserContext } from '../../context/user-context';
 import i18n from '../../locale/i18n';
 
 interface BodyComponentProps {
-  pageName: string
-  children: ReactNode
+  pageName: string;
+  children: ReactNode;
 }
 
 const BodyPageComponent: FC<BodyComponentProps> = ({ children, pageName }: BodyComponentProps) => {
@@ -25,11 +25,11 @@ const BodyPageComponent: FC<BodyComponentProps> = ({ children, pageName }: BodyC
         const userLanguage = user?.userLanguage || 'frFr';
         await i18n.changeLanguage(userLanguage);
       } catch (error) {
-        console.error('Error changing language:', error);
+        // console.error('Error changing language:', error);
       }
     };
 
-    changeLanguage();
+    changeLanguage().catch((err) => console.error('Error changing language:', err));
   }, [user]);
 
   useEffect(() => {

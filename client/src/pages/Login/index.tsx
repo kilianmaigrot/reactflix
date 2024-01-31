@@ -11,7 +11,7 @@ const Login = ({ onLogin }: { onLogin: (success: boolean) => void }) => {
 
   return (
     <StrictMode>
-      <BodyPageComponent pageName="Le Login en React">
+      <BodyPageComponent pageName='Le Login en React'>
         <LoginFormComponent errorTop={errorLogin} onLogin={onLogin}>
           <FooterPageComponent />
         </LoginFormComponent>

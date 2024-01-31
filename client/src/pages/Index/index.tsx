@@ -1,6 +1,6 @@
 import React, { FC, StrictMode } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
-import * as SC from './index.style';
+import StyledMessage from './index.style';
 import HeaderPageComponent from '../../components/Header';
 import FooterPageComponent from '../../components/Footer';
 import BodyPageComponent from '../../components/Body';
@@ -11,7 +11,7 @@ const Index: FC<IndexProps> = ({ t }) => (
   <StrictMode>
     <BodyPageComponent pageName="L'accueil en React">
       <HeaderPageComponent />
-      <SC.StyledMessage>{t('welcomeMessage')}</SC.StyledMessage>
+      <StyledMessage>{t('welcomeMessage')}</StyledMessage>
       <FooterPageComponent />
     </BodyPageComponent>
   </StrictMode>

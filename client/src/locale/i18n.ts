@@ -23,10 +23,10 @@ i18n
     react: {
       useSuspense: true,
     },
-  });
-
+  })
+  .catch(() => {});
 (async () => {
   await i18n.loadNamespaces(['translation']);
-})();
+});
 
 export default i18n;

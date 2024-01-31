@@ -4,7 +4,7 @@ import { withTranslation, WithTranslation } from 'react-i18next';
 import { useUserContext } from '../../context/user-context';
 import HeaderPageComponent from '../../components/Header';
 import BodyPageComponent from '../../components/Body';
-import * as SC from './logout.style';
+import StyledLogoutMessage from './logout.style';
 
 interface LogoutProps extends WithTranslation {}
 
@@ -32,10 +32,9 @@ const Logout: FC<LogoutProps> = ({ t }) => {
 
   return (
     <StrictMode>
-      <BodyPageComponent pageName="Le Login en React">
+      <BodyPageComponent pageName='Le Login en React'>
         <HeaderPageComponent />
-        <SC.StyledLogoutMessage>{t('logoutMessage')}</SC.StyledLogoutMessage>
-        ;
+        <StyledLogoutMessage>{t('logoutMessage')}</StyledLogoutMessage>
       </BodyPageComponent>
     </StrictMode>
   );

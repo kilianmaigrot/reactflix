@@ -16,7 +16,7 @@ const UserPage = () => {
 
   return (
     <StrictMode>
-      <BodyPageComponent pageName="Le Login en React">
+      <BodyPageComponent pageName='Le Login en React'>
         <HeaderPageComponent />
         <UserPageComponent
           name={user.name}

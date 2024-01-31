@@ -7,20 +7,20 @@ import React, {
   useContext,
   Dispatch,
   SetStateAction,
-  useMemo
+  useMemo,
 } from 'react';
 
 interface User {
-  idUser: string | null // Make idUser optional by adding a question mark
-  name: string
-  surname: string
-  email: string
-  userLanguage: string
+  idUser: string | null; // Make idUser optional by adding a question mark
+  name: string;
+  surname: string;
+  email: string;
+  userLanguage: string;
 }
 
 interface UserContextProps {
-  user: User | null
-  setUser: Dispatch<SetStateAction<User | null>>
+  user: User | null;
+  setUser: Dispatch<SetStateAction<User | null>>;
 }
 
 export const UserContext = createContext<UserContextProps | null>(null);
@@ -39,18 +39,13 @@ export const getUserLanguage = () => {
 };
 
 interface UserProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
-
-
 
 export const UserProvider: FC<UserProviderProps> = ({ children }) => {
   const storedUser = JSON.parse(sessionStorage.getItem('user') || 'null') as User | null;
   const [user, setUser] = useState<User | null>(storedUser);
-  const contextValue = useMemo(
-    () => ({ user, setUser }),
-    [user, setUser]
-  );
+  const contextValue = useMemo(() => ({ user, setUser }), [user, setUser]);
 
   useEffect(() => {
     sessionStorage.setItem('user', JSON.stringify(user));

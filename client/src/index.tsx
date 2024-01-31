@@ -1,6 +1,4 @@
-import React, {
-  FC, StrictMode, useState, useEffect,
-} from 'react';
+import React, { FC, StrictMode, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import Index from './pages/Index/index';
@@ -14,7 +12,7 @@ import PrivateRoutes from './utils/PrivateRoutes';
 import PublicOnlyRoutes from './utils/PublicOnlyRoutes';
 import * as AxiosS from './services/axios.service';
 
-const root:any = createRoot(document.getElementById('root'));
+const root: any = createRoot(document.getElementById('root'));
 
 const App: FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -40,19 +38,19 @@ const App: FC = () => {
         <StyleThemeProvider>
           <Router>
             <Routes>
-              <Route path="/" element={<Index />} />
+              <Route path='/' element={<Index />} />
 
               <Route element={<PrivateRoutes isAuthenticated={isAuthenticated} />}>
-                <Route path="/user" element={<UserPage />} />
+                <Route path='/user' element={<UserPage />} />
               </Route>
 
               <Route element={<PublicOnlyRoutes isAuthenticated={isAuthenticated} />}>
-                <Route path="/login/" element={<Login onLogin={handleLogin} />} />
-                <Route path="/login/:errorLogin" element={<Login onLogin={handleLogin} />} />
-                <Route path="/inscription" element={<Inscription />} />
+                <Route path='/login/' element={<Login onLogin={handleLogin} />} />
+                <Route path='/login/:messageTop' element={<Login onLogin={handleLogin} />} />
+                <Route path='/inscription' element={<Inscription />} />
               </Route>
 
-              <Route path="/logout" element={<Logout />} />
+              <Route path='/logout' element={<Logout />} />
             </Routes>
           </Router>
         </StyleThemeProvider>

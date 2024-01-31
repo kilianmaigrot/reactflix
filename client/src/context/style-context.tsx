@@ -7,12 +7,12 @@ import React, {
   useContext,
   Dispatch,
   SetStateAction,
-  useMemo
+  useMemo,
 } from 'react';
 
 interface StyleThemeContextProps {
-  styleTheme: string | null
-  setStyleTheme: Dispatch<SetStateAction<string | null>>
+  styleTheme: string | null;
+  setStyleTheme: Dispatch<SetStateAction<string | null>>;
 }
 
 export const StyleThemeContext = createContext<StyleThemeContextProps | null>(null);
@@ -28,27 +28,22 @@ export const useStyleThemeContext = (): StyleThemeContextProps => {
 };
 
 interface StyleThemeProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export const StyleThemeProvider: FC<StyleThemeProviderProps> = ({ children }) => {
-  const storedStyleTheme = JSON.parse(sessionStorage.getItem('styleTheme') || 'null') as | string | null;
+  const storedStyleTheme = JSON.parse(sessionStorage.getItem('styleTheme') || 'null') as
+    | string
+    | null;
   const [styleTheme, setStyleTheme] = useState<string | null>(storedStyleTheme);
 
-  const contextValue = useMemo(
-    () => ({ styleTheme, setStyleTheme }),
-    [styleTheme, setStyleTheme]
-  );
+  const contextValue = useMemo(() => ({ styleTheme, setStyleTheme }), [styleTheme, setStyleTheme]);
 
   useEffect(() => {
     sessionStorage.setItem('styleTheme', JSON.stringify(styleTheme));
   }, [styleTheme]);
 
-  return (
-    <StyleThemeContext.Provider value={contextValue}>
-      {children}
-    </StyleThemeContext.Provider>
-  );
+  return <StyleThemeContext.Provider value={contextValue}>{children}</StyleThemeContext.Provider>;
 };
 
 export default StyleThemeContext;
