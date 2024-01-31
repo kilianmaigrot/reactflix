@@ -2,12 +2,13 @@ import { Request, Response, NextFunction, Router } from 'express';
 import database from '../config/db.config';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { PoolClient } from 'pg';
 
 const router: Router = Router();
 
 router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const client = await database.connect();
+    const client: PoolClient = await database.connect();
 
     const email = req.body.email;
     const password = req.body.password;
@@ -18,49 +19,33 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
     if (result.rows.length && passwordOk) {
       const user = result.rows[0];
       const token = jwt.sign(user, process.env.JWT_SECRET || '123456789', { expiresIn: '1h' });
-      res.status(200).json({ token, userInfos : result.rows[0] });
+      res.status(200).json({ token, user : result.rows[0] });
     } else {
-      res.status(401).json({ error: 'Invalid email or password' });
+      res.status(401).json({ message:'User login failure.' });
     }
 
   } catch (err) {
-    next(err);
+    res.status(500).json(err);
   }
 });
 
-router.get("/verifyToken", async (req: Request, res: Response, next: NextFunction) => { // Private route (HOC, côté front)
+router.get("/verifyToken", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const authorizationHeader = req.header('Authorization');
-
-    if (!authorizationHeader || !authorizationHeader.includes(' ')) {  // Vérifier include bearer
-      return res.status(401).json({ error: 'Unauthorized' });
+    if (!authorizationHeader || !authorizationHeader.includes('Bearer ')) {
+      res.status(401).json({ message: 'Bearer not included' });
+      return;
     }
-
     const token = authorizationHeader.split(' ')[1];
-
-    const user = await verifyToken(token);
-
-    if (user) {
-      res.json({ user });
+    const tokenConfirmed = await jwt.verify(token, process.env.JWT_SECRET || '123456789');
+    if (tokenConfirmed) {
+      res.status(200).json({ message: "Token verification success." });
     } else {
-      res.status(401).json({ error: 'Unauthorized' });
+      res.status(401).json({ message: "Token verification failure." });
     }
   } catch (err) {
-    next(err);
+    res.status(500).json(err);
   }
 });
-
-// Middleware de vérif token
-const verifyToken = async (token: string): Promise<any | null> => {
-  return new Promise((resolve) => {
-    jwt.verify(token, process.env.JWT_SECRET || '123456789', (err, user) => {
-      if (err) {
-        resolve(null);
-      } else {
-        resolve(user);
-      }
-    });
-  });
-};
 
 export default router;

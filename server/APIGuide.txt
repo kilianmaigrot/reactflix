@@ -1,0 +1,123 @@
+API
+
+    Route /login
+        Body : email, password
+        Success :
+            response.status = 200
+            response.data = {
+                token,
+                user : {
+                    id_user
+                    name
+                    surname
+                    email
+                    password
+                    user_language
+                }
+            }
+        Failure :
+            response.status = 401
+            response.data = { message:'User login failure.' }
+        Error :
+            response.status = 500
+            response.data = err
+
+    Route /login/verifyToken
+        Headers : { Authorization: `Bearer ${token}` }
+        Success :
+            response.status = 200
+            response.data = { message: "Token verification success." }        
+        Failure :
+            response.status = 401
+            response.data = { message: 'Bearer not included' }  (Failure on bearer)
+            response.data = { message: "Token verification failure." }  (Failure on verification)
+        Error :
+            response.status = 500
+            response.data = err
+
+    Route /users
+        No headers or body
+        Success :
+            response.status = 200
+            response.data = {
+                every users, each
+                user : {
+                    id_user
+                    name
+                    surname
+                    email
+                    password
+                    user_language
+                }
+            }
+        Error :
+            response.status = 500
+            response.data = err
+
+    Route /users/register
+        Body : name, surname, email, password
+
+        Success :
+            response.status = 201
+            response.data = { message: "User creation success." }
+
+        Failure (email already in DB) :
+            response.status = 409
+            response.data = { message: "Email already registered." }
+
+        Error :
+            response.status = 500
+            response.data = err
+
+    Route /users/updateLanguage
+        Body : idUser, userLanguage
+        Success :
+            response.status = 200
+            response.data = { message: "Language update success." }
+        Error :
+            response.status = 500
+            response.data = err
+
+    Route /users/updateUser
+        Body : idUser, name, surname, email
+        Success :
+            response.status = 200
+            response.data = { message: "User update success." }
+        Error :
+            response.status = 500
+            response.data = err
+
+    Route /users/updatePassword
+        Body : idUser, password
+        Success :
+            response.status = 200
+            response.data = { message: "Password update success." }
+        Error :
+            response.status = 500
+            response.data = err
+
+Axios Service
+
+    login  
+        In : postData {email, password}
+        Out : Response or error
+    
+    register
+        In : postData {name, surname, email, password}
+        Out : Response or error
+    
+    verifyToken
+        In : null
+        Out : Boolean
+    
+    updateLanguage
+        In : postData {idUser, userLanguage}
+        Out : Response or undefined
+    
+    updateUser
+        In : postData {idUser, name, surname, email, password}
+        Out : Response or undefined
+    
+    updatePassword
+        In : postData {idUser, oldPassword, newPassword, email}
+        Out : Response or undefined
