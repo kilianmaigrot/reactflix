@@ -18,7 +18,7 @@ const UserPageComponent: FC<UserPageComponentProps> = ({
   idUser,
 }: UserPageComponentProps) => {
   const { t } = useTranslation();
-  const [displayedForm, setDisplayedForm] = useState<string>('none');  
+  const [displayedForm, setDisplayedForm] = useState<string>('none');
   return (
     <SC.ComponentContainer>
       <SC.LeftSideContainer>

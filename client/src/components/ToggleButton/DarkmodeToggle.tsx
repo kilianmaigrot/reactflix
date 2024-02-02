@@ -15,17 +15,17 @@ const DarkmodeToggleButton: FC<DarkmodeToggleButtonProps> = ({ toggled }) => {
 
   const callback = () => {
     toggle(!isToggled);
-    setStyleTheme(isToggled ? 'light-mode' : 'dark-mode');
+    setStyleTheme(isToggled ? 'dark-mode' : 'light-mode');
   };
 
   return (
     <SC.ToggleContainer>
-      <SC.IconLightmode $darkmode={isToggled} src={LightModeIcon as string} alt='Light Mode Icon' />
+      <SC.IconLightmode $darkmode={isToggled} src={DarkModeIcon as string} alt='Dark Mode Icon' />
       <SC.ToggleLabel>
         <SC.ToggleInput type='checkbox' defaultChecked={isToggled} onClick={callback} />
         <SC.ToggleSpan />
       </SC.ToggleLabel>
-      <SC.IconLightmode $darkmode={isToggled} src={DarkModeIcon as string} alt='Dark Mode Icon' />
+      <SC.IconLightmode $darkmode={isToggled} src={LightModeIcon as string} alt='Light Mode Icon' />
     </SC.ToggleContainer>
   );
 };

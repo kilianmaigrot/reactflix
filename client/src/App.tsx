@@ -1,6 +1,4 @@
-import React, {
-  StrictMode, useState, useEffect,
-} from 'react';
+import React, { StrictMode, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Index from './pages/Index/index';
 import Inscription from './pages/Inscription/index';
@@ -21,12 +19,11 @@ function App() {
 
   useEffect(() => {
     const verifyToken = async () => {
-      const response = await AxiosS.verifyToken();      
+      const response = await AxiosS.verifyToken();
       setIsAuthenticated(response);
     };
-    
-    verifyToken()
-      .catch(() => null);
+
+    verifyToken().catch(() => null);
   }, []);
 
   return (

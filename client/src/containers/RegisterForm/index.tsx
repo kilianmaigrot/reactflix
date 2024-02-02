@@ -1,5 +1,5 @@
-import React, { 
-  FC, ReactNode, useState, ChangeEvent, FocusEvent, FormEvent,
+import React, {
+  FC, ReactNode, useState, ChangeEvent, FocusEvent, FormEvent, 
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,7 @@ import * as AxiosS from '../../services/axios.service';
 import InputComponent from '../../components/Input';
 import * as SC from './form.style';
 import FormUtils from '../../utils/formUtils';
+import useFormValues from '../../hooks/useFormValues';
 
 interface RegisterFormComponentProps {
   children: ReactNode;
@@ -18,63 +19,63 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children }) => 
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  interface ErrorsType {    
-    [key: string]: string;
-  }
-  const { errorMessages, regexPatterns, errorsTop } = FormUtils();  
-  const [errors, setErrors] = useState<ErrorsType>({});
-  const [errorTop, setErrorTop] = useState<string>('');
-
   type UserObject = {
     name: string;
     surname: string;
     email: string;
     password: string;
   };
-  const [inputValues, setInputValues] = useState<UserObject>({ 
-    name: '', 
-    surname: '', 
-    email: '', 
-    password: '',
+
+  const { 
+    state: inputValues, editValue, editError, restartInputValues,
+  } = useFormValues({
+    name: {
+      value: '',
+      error: '',
+    },
+    surname: {
+      value: '',
+      error: '',
+    },
+    email: {
+      value: '',
+      error: '',
+    },
+    password: {
+      value: '',
+      error: '',
+    },
   });
 
-  const updateErrors = (updatedErrorKey: string, updatedError: string) => {
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [updatedErrorKey]: updatedError,
-    }));
-  };
-  
-  const updateInputValues = (updatedValueKey: string, updatedValue: string) => {
-    setInputValues((prevValues) => ({ ...prevValues, [updatedValueKey]: updatedValue }));
-  };
+  const { errorMessages, regexPatterns, errorsTop } = FormUtils();
+  const [errorTop, setErrorTop] = useState<string>('');
 
   // Vérifie une value si vide et avec un regex, et modifie les erreurs en conséquence
   const checkError = (value: string, regex: RegExp, errorType: string, errorKey: string) => {
     const emptyError: string = value === '' ? errorMessages.empty : '';
     const regexError: string = regex && !regex.test(value) ? errorMessages[errorType] : '';
     const error: string = emptyError !== '' ? emptyError : regexError;
-    updateErrors(errorKey, error);
+    editError({ inputKey: errorKey, error });
   };
 
   // Redéfinition des values à la saisie
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => { 
-    updateInputValues(event.target.name, event.target.value);
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    editValue({ inputKey: event.target.name, value: event.target.value });
   };
 
   // Gère le blur d'un inputArea
   const handleBlur = (inputArea: FocusEvent<HTMLInputElement>) => {
     const regex: RegExp = regexPatterns[inputArea.target.name];
     checkError(inputArea.target.value, regex, inputArea.target.name, inputArea.target.name);
-    updateInputValues(inputArea.target.name, inputArea.target.value);
+    editValue({ inputKey: inputArea.target.name, value: inputArea.target.value });
   };
 
   // Gestion de la soumission du formulaire
   const launchRegistration = (userData: UserObject) => AxiosS.register(userData)
     .then((response) => {
       if (response.status === 201) {
-        navigate('/login/inscriptionOk');   
-        
+        navigate('/login/inscriptionOk');
+
         return 'inscriptionOk';
       }
       throw new Error('errorServer');
@@ -88,25 +89,32 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children }) => 
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    Object.entries(inputValues).forEach((entry) => {
+    let emptyValue = false;
+    const submitData = { 
+      name: inputValues.name.value,
+      surname: inputValues.surname.value,
+      email: inputValues.email.value,
+      password: inputValues.password.value,
+    };
+    const submitError = {
+      name: inputValues.name.error,
+      surname: inputValues.surname.error,
+      email: inputValues.email.error,
+      password: inputValues.password.error,
+    };
+    Object.entries(submitData).forEach((entry) => {
       const [key, value] = entry;
-      updateErrors(key, value === '' ? errorMessages.empty : errors[key]);
+      editError({ inputKey: key, error: value === '' ? errorMessages.empty : inputValues.key.error });
+      emptyValue = value === '' && true;
     });
-    if (!Object.values(errors).some((value) => value !== '') && inputValues.name !== '' && inputValues.surname !== '' && inputValues.email !== '' && inputValues.password !== '') {
-      launchRegistration(inputValues)
-        .catch((err) => setErrorTop((err as Error).message));
+    if (!Object.values(submitError).some((value) => value !== '') && !emptyValue) {
+      launchRegistration(submitData).catch((err) => setErrorTop((err as Error).message));
     }
   };
 
   // Gestion du reset
   const handleReset = () => {
-    setErrors({});
-    setInputValues({ 
-      name: '', 
-      surname: '', 
-      email: '', 
-      password: '',
-    });
+    restartInputValues();
   };
 
   return (
@@ -120,9 +128,9 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children }) => 
           type='name'
           label={t('formT.nameLabel')}
           placeHolder={t('formT.namePlaceholder')}
-          errorMessage={errors.name}
+          errorMessage={inputValues.name.error}
           onBlur={handleBlur}
-          value={inputValues.name}
+          value={inputValues.name.value}
           onChange={handleChange}
         />
         <InputComponent
@@ -130,9 +138,9 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children }) => 
           type='surname'
           label={t('formT.surnameLabel')}
           placeHolder={t('formT.surnamePlaceholder')}
-          errorMessage={errors.surname}
+          errorMessage={inputValues.surname.error}
           onBlur={handleBlur}
-          value={inputValues.surname}
+          value={inputValues.surname.value}
           onChange={handleChange}
         />
         <InputComponent
@@ -140,9 +148,9 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children }) => 
           type='email'
           label={t('formT.emailLabel')}
           placeHolder={t('formT.emailPlaceholder')}
-          errorMessage={errors.email}
+          errorMessage={inputValues.email.error}
           onBlur={handleBlur}
-          value={inputValues.email}
+          value={inputValues.email.value}
           onChange={handleChange}
         />
         <InputComponent
@@ -150,9 +158,9 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children }) => 
           type='password'
           label={t('formT.passwordLabel')}
           placeHolder={t('formT.passwordPlaceholder')}
-          errorMessage={errors.password}
+          errorMessage={inputValues.password.error}
           onBlur={handleBlur}
-          value={inputValues.password}
+          value={inputValues.password.value}
           onChange={handleChange}
         />
         <SC.ButtonArea>

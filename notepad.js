@@ -7,6 +7,7 @@
 
 // complexity
 // /!\ Usereducer /!\
+// Export des constantes des compos dans un autre doc
 // Tests Jest / React testing Library
 // https://testing-library.com/docs/react-testing-library/intro/
 

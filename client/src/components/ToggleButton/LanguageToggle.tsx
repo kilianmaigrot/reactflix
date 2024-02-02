@@ -11,34 +11,33 @@ interface LanguageToggleButtonProps {
 
 const LanguageToggleButton: FC<LanguageToggleButtonProps> = ({ toggled }) => {
   const { user, setUser } = useUserContext();
-  
+
   const [isToggled, toggle] = useState<boolean>(toggled);
-  
+
   interface PostDataType {
     userLanguage: string;
     idUser: string;
   }
-  
+
   const setLanguagesParameters = async (userLanguageSet: string, idUserSet: string) => {
     const postData: PostDataType = {
       userLanguage: userLanguageSet,
       idUser: idUserSet,
     };
-    
+
     postData.idUser !== '' && (await AxiosS.updateLanguage(postData));
-    
+
     setUser((prevUser) => ({
       ...prevUser,
       userLanguage: postData.userLanguage,
     }));
   };
-  
+
   const callback = () => {
     toggle(!isToggled);
-    setLanguagesParameters(isToggled ? 'frFr' : 'enUk', user?.idUser || '')
-      .catch(() => {});
+    setLanguagesParameters(isToggled ? 'frFr' : 'enUk', user?.idUser || '').catch(() => {});
   };
-  
+
   return (
     <SC.ToggleContainer>
       <SC.IconFlag src={DrapeauFR as string} alt='Drapeau FR' />
@@ -50,5 +49,5 @@ const LanguageToggleButton: FC<LanguageToggleButtonProps> = ({ toggled }) => {
     </SC.ToggleContainer>
   );
 };
-  
+
 export default LanguageToggleButton;

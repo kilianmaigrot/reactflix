@@ -17,7 +17,7 @@ interface ErrorsTopProps {
 
 const FormUtilsComponent = () => {
   const { t } = useTranslation(); // Specify the correct namespace here
-  
+
   // Define error messages
   const errorMessages: ErrorMessagesProps = {
     empty: t('formT.errorMessages.empty'),

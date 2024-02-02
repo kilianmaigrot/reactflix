@@ -6,7 +6,7 @@ import RegisterFormComponent from '../../containers/RegisterForm';
 import BodyPageComponent from '../../components/Body/index';
 import FooterPageComponent from '../../components/Footer';
 
-const Inscription:FC = () => {
+const Inscription: FC = () => {
   const { t } = useTranslation();
 
   return (

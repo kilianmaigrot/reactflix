@@ -14,8 +14,8 @@ const UserPage = () => {
 
   if (!user) {
     return null;
-  } 
-  
+  }
+
   return (
     <StrictMode>
       <BodyPageComponent pageName={t('pageName.userpageName')}>

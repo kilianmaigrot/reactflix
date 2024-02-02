@@ -25,8 +25,8 @@ i18n
     },
   })
   .catch(() => {});
-(async () => {
+async () => {
   await i18n.loadNamespaces(['translation']);
-});
+};
 
 export default i18n;

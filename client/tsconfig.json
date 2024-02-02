@@ -21,6 +21,7 @@
     "noEmit": true,
     "paths": {
       "root/*": ["./*"],
+      "hooks/*": ["./hooks/*"],
       "components/*": ["./components/*"],
       "containers/*": ["./containers/*"],
       "services/*": ["./services/*"],

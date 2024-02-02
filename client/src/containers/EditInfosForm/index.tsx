@@ -1,4 +1,4 @@
-import React, {
+import React, { 
   FC, useState, ChangeEvent, FocusEvent, FormEvent,
 } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -11,12 +11,12 @@ import FormUtils from '../../utils/formUtils';
 
 const EditInfosFormComponent: FC = () => {
   const { t } = useTranslation();
-  const { user, setUser } = useUserContext(); 
+  const { user, setUser } = useUserContext();
 
   interface ErrorsType {
     [key: string]: string;
   }
-  const { errorMessages, regexPatterns, errorsTop } = FormUtils(); 
+  const { errorMessages, regexPatterns, errorsTop } = FormUtils();
   const [errors, setErrors] = useState<ErrorsType>({});
   const [errorTop, setErrorTop] = useState<string>('');
 
@@ -27,7 +27,7 @@ const EditInfosFormComponent: FC = () => {
     email: string;
     password: string;
   };
-  
+
   const [inputValues, setInputValues] = useState<UserObject>({
     idUser: user?.idUser,
     name: user?.name,
@@ -42,7 +42,7 @@ const EditInfosFormComponent: FC = () => {
       [updatedErrorKey]: updatedError,
     }));
   };
-  
+
   const updateInputValues = (updatedValueKey: string, updatedValue: string) => {
     setInputValues((prevValues) => ({ ...prevValues, [updatedValueKey]: updatedValue }));
   };
@@ -56,7 +56,7 @@ const EditInfosFormComponent: FC = () => {
   };
 
   // Redéfinition des values à la saisie
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => { 
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     updateInputValues(event.target.name, event.target.value);
   };
 
@@ -78,15 +78,19 @@ const EditInfosFormComponent: FC = () => {
       }));
       return 'editOk';
     })
-    .catch(() => { throw new Error('editWrongPassword'); });
+    .catch(() => {
+      throw new Error('editWrongPassword');
+    });
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    let emptyValue = false;
     Object.entries(inputValues).forEach((entry) => {
       const [key, value] = entry;
       updateErrors(key, value === '' ? errorMessages.empty : errors[key]);
+      emptyValue = value === '' && true;
     });
-    if (!Object.values(errors).some((value) => value !== '') && inputValues.name !== '' && inputValues.surname !== '' && inputValues.email !== '' && inputValues.password !== '') {
+    if (!Object.values(errors).some((value) => value !== '') && !emptyValue) {
       launchEdit(inputValues)
         .then((result) => setErrorTop(result))
         .catch(() => setErrorTop('editWrongPassword'));

@@ -69,7 +69,8 @@ module.exports = {
           },
         ],
         'react/no-danger': 0,
-        'linebreak-style': 0
+        'linebreak-style': 0,
+        "complexity": ["error", 5]
       },
     },
   ],
@@ -78,7 +79,7 @@ module.exports = {
     'import/resolver': {
       typescript: {},
       node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.backup'],
       },
     },
   },

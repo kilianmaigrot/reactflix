@@ -2,7 +2,8 @@ import axios, { AxiosResponse } from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:3001';
 
-export const login = (postData: object): Promise<AxiosResponse<object>> => axios.post('/login', postData)
+export const login = (postData: object): Promise<AxiosResponse<object>> => axios
+  .post('/login', postData)
   .then((response) => response)
   .catch((error) => Promise.reject(error));
 
@@ -13,12 +14,14 @@ export const register = (postData: object): Promise<AxiosResponse<object>> => ax
 
 export const verifyToken = async () => {
   const token = document.cookie.replace(/(?:(?:^|.*;\s*)jwtToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
-  
-  if (!token) { return false; }
+
+  if (!token) {
+    return false;
+  }
   const headers = { headers: { Authorization: `Bearer ${token}` } };
-  
+
   try {
-    const response = await axios.get('/login/verifyToken', headers);    
+    const response = await axios.get('/login/verifyToken', headers);
     return response.status === 200;
   } catch (error) {
     return false;
@@ -42,10 +45,10 @@ export type UpdateUserPayload = {
   password: string;
 };
 
-export const updateUser = async (postData:UpdateUserPayload): Promise<object | undefined> => {
+export const updateUser = async (postData: UpdateUserPayload): Promise<object | undefined> => {
   const loginReturn = await login({ email: postData.email, password: postData.password });
   const tokenVerified: boolean = await verifyToken();
-  
+
   if (tokenVerified && loginReturn.status === 200) {
     const response = await axios.patch('/users/updateUser', postData);
     return response;
@@ -53,7 +56,12 @@ export const updateUser = async (postData:UpdateUserPayload): Promise<object | u
   return undefined;
 };
 
-export const updatePassword = async (postData: { idUser: string, oldPassword: string, newPassword: string, email: string }): Promise<object | undefined> => {
+export const updatePassword = async (postData: {
+  idUser: string;
+  oldPassword: string;
+  newPassword: string;
+  email: string;
+}): Promise<object | undefined> => {
   const loginReturn = await login({ email: postData.email, password: postData.oldPassword });
   const tokenVerified: boolean = await verifyToken();
 

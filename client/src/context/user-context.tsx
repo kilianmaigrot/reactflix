@@ -60,7 +60,9 @@ export const UserProvider: FC<UserProviderProps> = ({ children }) => {
     sessionStorage.setItem('user', JSON.stringify(user));
   }, [user]);
 
-  return <UserContext.Provider value={contextValue as UserContextProps}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={contextValue as UserContextProps}>{children}</UserContext.Provider>
+  );
 };
 
 export default UserContext;
