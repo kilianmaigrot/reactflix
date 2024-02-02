@@ -5,3 +5,6 @@
 /client-old/node_modules
 /client-old/node_modules/*
 /client/APIGuide.txt
+/notepad.js
+/client/src/containers/RegisterForm/index.tsx.backup
+/client/src/hooks/useFormValues.ts.backup
