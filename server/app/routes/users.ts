@@ -24,7 +24,7 @@ router.post("/register", async (req: Request, res: Response, next: NextFunction)
 
     const email = req.body.email;
 
-    const result = await client.query('SELECT * FROM users WHERE email = $1', [email]);
+    const result = await client.query('SELECT * FROM users WHERE email = $1', [email]); // Externalisat° des queries en fct
 
     if (result.rows.length > 0) {
       client.release();
@@ -38,8 +38,6 @@ router.post("/register", async (req: Request, res: Response, next: NextFunction)
         const password = await bcrypt.hash(req.body.password, salt);
 
         const insertResult = await client.query('INSERT INTO users (name, surname, password, email) VALUES ($1, $2, $3, $4)', [name, surname, password, email]);
-
-        console.log(insertResult);
 
         client.release();
 

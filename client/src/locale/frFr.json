@@ -3,6 +3,15 @@
   "signUp": "Inscription",
   "welcomeMessage": "Bienvenue sur cette application en React",
 
+  "pageName": {
+    "indexName": "React - Accueil",
+    "registerName": "React - Insciption",
+    "loginName": "React - Connexion",
+    "logoutName": "React - Déconnexion",
+    "userpageName": "React - Page utilisateur"
+  },
+
+
   "formT": {
     "editInfosFormTitle": "Modifier mes informations",
     "editPasswordFormTitle": "Changer mon mot de passe",
@@ -38,7 +47,7 @@
 
     "errorsTop": {
       "errorLogin": "Utilisateur non trouvé, veuillez vérifier vos identifiants",
-      "errorServer": "Connexion impossible, veuillez rententer la connexion d\"ici quelques minutes ou contactez votre administrateur réseau",
+      "errorServer": "Connexion impossible, veuillez rententer la connexion d'ici quelques minutes ou contactez votre administrateur réseau",
       "errorExistingUser": "Un utilisateur existe déjà avec cette adresse email",
       "errorToken": "Merci de vous connecter pour accéder à cette page",
       "inscriptionOk": "Inscription validée, vous pouvez maintenant vous connecter avec vos identifiants",
@@ -51,12 +60,12 @@
   "confirm": "Confirmer",
   "cancel": "Annuler",
   "logout": "Se déconnecter",
-  "close": "Fermer cette fenêtre",
+  "close": "Fermer",
   "userInfos": "Mes informations",
   "editInfos": "Modifier mes informations",
   "editPassword": "Changer mon mot de passe",
 
   "userMessage": "Bonjour {{surname}} {{name}}, vous êtes l'utilisateur n°{{idUser}}, connecté avec votre adresse email {{email}}.",
   "logoutMessage": "Déconnexion en cours",
-  "welcome": "Bienvenue"
+  "welcome": "Bienvenue "
 }

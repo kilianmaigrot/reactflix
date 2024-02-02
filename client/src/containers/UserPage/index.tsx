@@ -1,9 +1,10 @@
 import React, { FC, useState } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import * as SC from './userPage.style';
-import { EditInfosFormComponent, EditPasswordFormComponent } from '../Forms';
+import EditInfosFormComponent from '../EditInfosForm';
+import EditPasswordFormComponent from '../EditPasswordForm';
 
-interface UserPageComponentProps extends WithTranslation {
+interface UserPageComponentProps {
   name: string;
   surname: string;
   email: string;
@@ -11,14 +12,13 @@ interface UserPageComponentProps extends WithTranslation {
 }
 
 const UserPageComponent: FC<UserPageComponentProps> = ({
-  t,
   name,
   surname,
   email,
   idUser,
 }: UserPageComponentProps) => {
-  const [displayedForm, setDisplayedForm] = useState<string>('none');
-
+  const { t } = useTranslation();
+  const [displayedForm, setDisplayedForm] = useState<string>('none');  
   return (
     <SC.ComponentContainer>
       <SC.LeftSideContainer>
@@ -44,15 +44,14 @@ const UserPageComponent: FC<UserPageComponentProps> = ({
       </SC.LeftSideContainer>
 
       <SC.RightSideContainer $display={displayedForm !== 'none'}>
-        <button
+        <SC.BackButton
           type='button'
           onClick={() => setDisplayedForm('none')}
           tabIndex={0}
           aria-label={t('close')}
         >
           {t('close')}
-        </button>
-        ;
+        </SC.BackButton>
         <SC.FormContainer $display={displayedForm === 'editInfos'}>
           <EditInfosFormComponent />
         </SC.FormContainer>
@@ -64,6 +63,4 @@ const UserPageComponent: FC<UserPageComponentProps> = ({
   );
 };
 
-const UserPageComponentWithTranslation = withTranslation()(UserPageComponent);
-
-export default UserPageComponentWithTranslation;
+export default UserPageComponent;

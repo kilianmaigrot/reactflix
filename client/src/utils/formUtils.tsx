@@ -1,53 +1,58 @@
 import { useTranslation } from 'react-i18next';
 
-const { t } = useTranslation();
-
-// Messages d'erreur traduits avec 18n
+// Define error messages interface
 interface ErrorMessagesProps {
-  empty: string;
-  name: string;
-  surname: string;
-  email: string;
-  password: string;
+  [key: string]: string;
 }
-export const errorMessages: ErrorMessagesProps = {
-  empty: t('errorMessages.empty'),
-  name: t('errorMessages.name'),
-  surname: t('errorMessages.surname'),
-  email: t('errorMessages.email'),
-  password: t('errorMessages.password'),
-};
 
-// Regex de chaque champ
+// Define regex patterns interface
 interface RegexPatternsProps {
-  name: RegExp;
-  surname: RegExp;
-  email: RegExp;
-  password: RegExp;
+  [key: string]: RegExp;
 }
-export const regexPatterns: RegexPatternsProps = {
-  name: /^[A-Za-zÀ-ÖØ-öø-ÿ]{2,}$/,
-  surname: /^[A-Za-zÀ-ÖØ-öø-ÿ]{2,}$/,
-  email: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-  password: /^(?=.*[A-Z])(?=.*\d).{8,}$/,
+
+// Define top-level errors interface
+interface ErrorsTopProps {
+  [key: string]: string;
+}
+
+const FormUtilsComponent = () => {
+  const { t } = useTranslation(); // Specify the correct namespace here
+  
+  // Define error messages
+  const errorMessages: ErrorMessagesProps = {
+    empty: t('formT.errorMessages.empty'),
+    name: t('formT.errorMessages.name'),
+    surname: t('formT.errorMessages.surname'),
+    email: t('formT.errorMessages.email'),
+    password: t('formT.errorMessages.password'),
+  };
+
+  // Define top-level errors
+  const errorsTop: ErrorsTopProps = {
+    errorLogin: t('formT.errorsTop.errorLogin'), // Corrected usage
+    errorServer: t('formT.errorsTop.errorServer'), // Corrected usage
+    errorExistingUser: t('formT.errorsTop.errorExistingUser'),
+    errorToken: t('formT.errorsTop.errorToken'), // Corrected usage
+    inscriptionOk: t('formT.errorsTop.inscriptionOk'), // Corrected usage
+    editOk: t('formT.errorsTop.editOk'), // Corrected usage
+    editWrongPassword: t('formT.errorsTop.editWrongPassword'), // Corrected usage
+    editPasswordSuccess: t('formT.errorsTop.editPasswordSuccess'), // Corrected usage
+  };
+
+  // Define regex patterns
+  const regexPatterns: RegexPatternsProps = {
+    name: /^[A-Za-zÀ-ÖØ-öø-ÿ]{2,}$/,
+    surname: /^[A-Za-zÀ-ÖØ-öø-ÿ]{2,}$/,
+    email: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+    password: /^(?=.*[A-Z])(?=.*\d).{8,}$/,
+  };
+
+  // Return the values as an object
+  return {
+    errorMessages,
+    regexPatterns,
+    errorsTop,
+  };
 };
 
-// Messages affichés en haut
-interface ErrorsTopProps {
-  errorLogin: string;
-  errorServer: string;
-  errorToken: string;
-  inscriptionOk: string;
-  editOk: string;
-  editWrongPassword: string;
-  editPasswordSuccess: string;
-}
-export const errorsTop: ErrorsTopProps = {
-  errorLogin: t('errorsTop.errorLogin'),
-  errorServer: t('errorsTop.errorServer'),
-  errorToken: t('errorsTop.errorToken'),
-  inscriptionOk: t('errorsTop.inscriptionOk'),
-  editOk: t('errorsTop.editOk'),
-  editWrongPassword: t('errorsTop.editWrongPassword'),
-  editPasswordSuccess: t('errorsTop.editPasswordSuccess'),
-};
+export default FormUtilsComponent;

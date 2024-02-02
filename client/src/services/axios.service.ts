@@ -13,17 +13,19 @@ export const register = (postData: object): Promise<AxiosResponse<object>> => ax
 
 export const verifyToken = async () => {
   const token = document.cookie.replace(/(?:(?:^|.*;\s*)jwtToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+  
   if (!token) { return false; }
   const headers = { headers: { Authorization: `Bearer ${token}` } };
+  
   try {
-    const response = await axios.get('/login/verifyToken', headers);
+    const response = await axios.get('/login/verifyToken', headers);    
     return response.status === 200;
   } catch (error) {
     return false;
   }
 };
 
-export const updateLanguage = async (postData: object): Promise<AxiosResponse | object> => {
+export const updateLanguage = async (postData: object): Promise<object | undefined> => {
   const tokenVerified = await verifyToken();
   if (tokenVerified) {
     const response = await axios.patch<{ message: string }>('/users/updateLanguage', postData);
@@ -40,7 +42,7 @@ export type UpdateUserPayload = {
   password: string;
 };
 
-export const updateUser = async (postData:UpdateUserPayload): Promise<AxiosResponse | object> => {
+export const updateUser = async (postData:UpdateUserPayload): Promise<object | undefined> => {
   const loginReturn = await login({ email: postData.email, password: postData.password });
   const tokenVerified: boolean = await verifyToken();
   
@@ -51,7 +53,7 @@ export const updateUser = async (postData:UpdateUserPayload): Promise<AxiosRespo
   return undefined;
 };
 
-export const updatePassword = async (postData: { idUser: string, oldPassword: string, newPassword: string, email: string }): Promise<AxiosResponse | object> => {
+export const updatePassword = async (postData: { idUser: string, oldPassword: string, newPassword: string, email: string }): Promise<object | undefined> => {
   const loginReturn = await login({ email: postData.email, password: postData.oldPassword });
   const tokenVerified: boolean = await verifyToken();
 

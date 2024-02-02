@@ -10,20 +10,29 @@ import React, {
   useMemo,
 } from 'react';
 
-interface User {
-  idUser: string | null; // Make idUser optional by adding a question mark
+export interface User {
+  idUser: string;
   name: string;
   surname: string;
   email: string;
   userLanguage: string;
 }
 
-interface UserContextProps {
-  user: User | null;
-  setUser: Dispatch<SetStateAction<User | null>>;
+export interface UserContextProps {
+  user: User;
+  setUser: Dispatch<SetStateAction<User>>;
 }
 
-export const UserContext = createContext<UserContextProps | null>(null);
+export const UserContext = createContext<UserContextProps>({
+  user: {
+    idUser: '',
+    name: '',
+    surname: '',
+    email: '',
+    userLanguage: '',
+  },
+  setUser: () => {},
+});
 
 export const useUserContext = (): UserContextProps => {
   const context = useContext(UserContext);
@@ -34,7 +43,7 @@ export const useUserContext = (): UserContextProps => {
 };
 
 export const getUserLanguage = () => {
-  const { user } = useUserContext(); // Ensure useUserContext is available in this file
+  const { user } = useContext(UserContext);
   return user?.userLanguage;
 };
 
@@ -43,7 +52,7 @@ interface UserProviderProps {
 }
 
 export const UserProvider: FC<UserProviderProps> = ({ children }) => {
-  const storedUser = JSON.parse(sessionStorage.getItem('user') || 'null') as User | null;
+  const storedUser = JSON.parse(sessionStorage.getItem('user') || 'null') as User;
   const [user, setUser] = useState<User | null>(storedUser);
   const contextValue = useMemo(() => ({ user, setUser }), [user, setUser]);
 
@@ -51,7 +60,7 @@ export const UserProvider: FC<UserProviderProps> = ({ children }) => {
     sessionStorage.setItem('user', JSON.stringify(user));
   }, [user]);
 
-  return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
+  return <UserContext.Provider value={contextValue as UserContextProps}>{children}</UserContext.Provider>;
 };
 
 export default UserContext;

@@ -30,9 +30,11 @@ const InputComponent: FC<InputComponentProps> = ({
       type={type}
       name={name}
       placeholder={placeHolder}
+      aria-label={`${name}-input-field`}
       onBlur={(event) => onBlur(event)}
       value={value}
       onChange={(event) => onChange(event)}
+      autoComplete='off'
     />
   </SC.LabelContainer>
 );

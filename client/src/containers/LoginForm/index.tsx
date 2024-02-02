@@ -1,45 +1,38 @@
 import React, {
-  FC,
-  ReactNode,
-  useState,
-  useContext,
-  ChangeEvent,
-  FocusEvent,
-  FormEvent,
+  FC, ReactNode, useState, ChangeEvent, FocusEvent, FormEvent,
 } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { withTranslation, WithTranslation } from 'react-i18next';
-import { UserContext } from '../../context/user-context';
+import { useTranslation } from 'react-i18next';
+import { AxiosError } from 'axios';
+
+import { useUserContext } from '../../context/user-context';
 import * as AxiosS from '../../services/axios.service';
 
 import InputComponent from '../../components/Input';
 import * as SC from './form.style';
-import { 
-  errorMessages, regexPatterns, errorsTop,
-} from '../../utils/formUtils';
+import FormUtils from '../../utils/formUtils';
 
-interface LoginFormComponentProps extends WithTranslation {
+interface LoginFormComponentProps {
   children: ReactNode;
   onLogin: (success: boolean) => void;
 }
 
 const LoginFormComponent: FC<LoginFormComponentProps> = ({
   children,
-  t,
   onLogin,
 }: LoginFormComponentProps) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
-  interface ErrorsType {    
-    email?: string;
-    password?: string;
-    errorTop?: string;
+  interface ErrorsType {   
+    [key: string]: string;
   }
-  
+
+  const { errorMessages, regexPatterns, errorsTop } = FormUtils();  
   const [errors, setErrors] = useState<ErrorsType>({});
   const { messageTop } = useParams();
   const [errorTop, setErrorTop] = useState<string>('');
-  if (messageTop) {
+  if (messageTop && errorTop !== messageTop) {
     setErrorTop(messageTop);
   }
 
@@ -51,20 +44,24 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
     email: '', 
     password: '',
   });
-  const { setUser } = useContext(UserContext);
+
+  const { setUser } = useUserContext();  
   
   const updateErrors = (updatedErrorKey: string, updatedError: string) => {
-    setErrors((prevErrors) => ({ ...prevErrors, updatedErrorKey: [updatedError] }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [updatedErrorKey]: updatedError,
+    }));
   };
-
+  
   const updateInputValues = (updatedValueKey: string, updatedValue: string) => {
-    setInputValues((prevValues) => ({ ...prevValues, updatedValueKey: [updatedValue] }));
+    setInputValues((prevValues) => ({ ...prevValues, [updatedValueKey]: updatedValue }));
   };
 
   // Vérifie une value si vide et avec un regex, et modifie les erreurs en conséquence
   const checkError = (value: string, regex: RegExp, errorType: string, errorKey: string) => {
     const emptyError: string = value === '' ? errorMessages.empty : '';
-    const regexError: string = regex && !regex.test(value) ? errorMessages[errorType] as string : '';
+    const regexError: string = regex && !regex.test(value) ? errorMessages[errorType] : '';
     const error: string = emptyError !== '' ? emptyError : regexError;
     updateErrors(errorKey, error);
   };
@@ -76,14 +73,15 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
 
   // Gère le blur d'un inputArea
   const handleBlur = (inputArea: FocusEvent<HTMLInputElement>) => {
-    const regex: RegExp = regexPatterns[inputArea.target.name] as RegExp;
+    const regex: RegExp = regexPatterns[inputArea.target.name];
     checkError(inputArea.target.value, regex, inputArea.target.name, inputArea.target.name);
     updateInputValues(inputArea.target.name, inputArea.target.value);
   };
 
   // Gestion de la soumission du formulaire
   interface SuccessfulLoginResponse {
-    userInfos: {
+    token: string,
+    user: {
       id_user: string;
       name: string;
       surname: string;
@@ -92,30 +90,33 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
     };
   }
   
-  const launchLogin = (userData: InputsType) => AxiosS.login(userData)
-    .then((response) => {
-      if ('data' in response && typeof response.data === 'object') {
-        const responseData = response.data as SuccessfulLoginResponse;
-        setUser((prevUser) => ({
-          ...prevUser,
-          idUser: responseData.userInfos.id_user,
-          name: responseData.userInfos.name,
-          surname: responseData.userInfos.surname,
-          email: responseData.userInfos.email,
-          userLanguage: responseData.userInfos.user_language,
-        }));
-        onLogin(true);
-        return 'editOk';
-      }
-      throw new Error('errorLogin');
-    })
-    .catch(() => { throw new Error('errorServer'); });
+  const launchLogin = async (userData: InputsType): Promise<string> => {
+    try {
+      const response = await AxiosS.login(userData);      
+      const responseData = response.data as SuccessfulLoginResponse;
+      setUser(({
+        idUser: responseData.user.id_user,
+        name: responseData.user.name,
+        surname: responseData.user.surname,
+        email: responseData.user.email,
+        userLanguage: responseData.user.user_language,
+      }));
+      onLogin(true);      
+      const d: Date = new Date();
+      d.setTime(d.getTime() + 60 * 60 * 1000);
+      document.cookie = `jwtToken=${responseData.token}; expires=${d.toUTCString()}; path=/; secure`;
+      return 'editOk';
+    } catch (error: unknown) {
+      const isUnauthorizedError = (error as AxiosError).response?.status === 401;
+      throw isUnauthorizedError ? new Error('errorLogin') : new Error('errorServer');
+    }
+  };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     Object.entries(inputValues).forEach((entry) => {
       const [key, value] = entry;
-      updateErrors(key, value === '' ? errorMessages.empty : errors[key] as string);
+      updateErrors(key, value === '' ? errorMessages.empty : errors[key]);
     });
     if (!Object.values(errors).some((value) => value !== '') && inputValues.email !== '' && inputValues.password !== '') {
       launchLogin(inputValues)
@@ -176,6 +177,4 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
   );
 };
 
-const LoginFormWithTranslation = withTranslation()(LoginFormComponent);
-
-export default LoginFormWithTranslation;
+export default LoginFormComponent;

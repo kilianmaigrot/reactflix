@@ -1,27 +1,22 @@
-import React, { 
-  FC, useState, ChangeEvent, FocusEvent, FormEvent, 
+import React, {
+  FC, useState, ChangeEvent, FocusEvent, FormEvent,
 } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import * as AxiosS from '../../services/axios.service';
 import { useUserContext } from '../../context/user-context';
 
 import InputComponent from '../../components/Input';
 import * as SC from './form.style';
-import { 
-  errorMessages, regexPatterns, errorsTop,
-} from '../../utils/formUtils';
+import FormUtils from '../../utils/formUtils';
 
-interface EditInfosFormComponentProps extends WithTranslation {}
+const EditInfosFormComponent: FC = () => {
+  const { t } = useTranslation();
+  const { user, setUser } = useUserContext(); 
 
-const EditInfosFormComponent: FC<EditInfosFormComponentProps> = ({ t }) => {
-  const { user, setUser } = useUserContext();
-
-  interface ErrorsType {    
-    name?: string;  
-    surname?: string;
-    email?: string;
-    password?: string;
+  interface ErrorsType {
+    [key: string]: string;
   }
+  const { errorMessages, regexPatterns, errorsTop } = FormUtils(); 
   const [errors, setErrors] = useState<ErrorsType>({});
   const [errorTop, setErrorTop] = useState<string>('');
 
@@ -32,26 +27,30 @@ const EditInfosFormComponent: FC<EditInfosFormComponentProps> = ({ t }) => {
     email: string;
     password: string;
   };
-  const [inputValues, setInputValues] = useState<UserObject>({ 
-    idUser: user.idUser,
-    name: user.name, 
-    surname: user.surname, 
-    email: user.email, 
+  
+  const [inputValues, setInputValues] = useState<UserObject>({
+    idUser: user?.idUser,
+    name: user?.name,
+    surname: user?.surname,
+    email: user?.email,
     password: '',
   });
 
   const updateErrors = (updatedErrorKey: string, updatedError: string) => {
-    setErrors((prevErrors) => ({ ...prevErrors, updatedErrorKey: [updatedError] }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [updatedErrorKey]: updatedError,
+    }));
   };
-
+  
   const updateInputValues = (updatedValueKey: string, updatedValue: string) => {
-    setInputValues((prevValues) => ({ ...prevValues, updatedValueKey: [updatedValue] }));
+    setInputValues((prevValues) => ({ ...prevValues, [updatedValueKey]: updatedValue }));
   };
 
   // Vérifie une value si vide et avec un regex, et modifie les erreurs en conséquence
   const checkError = (value: string, regex: RegExp, errorType: string, errorKey: string) => {
     const emptyError: string = value === '' ? errorMessages.empty : '';
-    const regexError: string = regex && !regex.test(value) ? errorMessages[errorType] as string : '';
+    const regexError: string = regex && !regex.test(value) ? errorMessages[errorType] : '';
     const error: string = emptyError !== '' ? emptyError : regexError;
     updateErrors(errorKey, error);
   };
@@ -63,13 +62,13 @@ const EditInfosFormComponent: FC<EditInfosFormComponentProps> = ({ t }) => {
 
   // Gère le blur d'un inputArea
   const handleBlur = (inputArea: FocusEvent<HTMLInputElement>) => {
-    const regex: RegExp = regexPatterns[inputArea.target.name] as RegExp;
+    const regex: RegExp = regexPatterns[inputArea.target.name];
     checkError(inputArea.target.value, regex, inputArea.target.name, inputArea.target.name);
     updateInputValues(inputArea.target.name, inputArea.target.value);
   };
 
   // Gestion de la soumission du formulaire
-  const launchEdit = (userData : UserObject) => AxiosS.updateUser(userData)
+  const launchEdit = (userData: UserObject) => AxiosS.updateUser(userData)
     .then(() => {
       setUser((prevUser) => ({
         ...prevUser,
@@ -85,7 +84,7 @@ const EditInfosFormComponent: FC<EditInfosFormComponentProps> = ({ t }) => {
     event.preventDefault();
     Object.entries(inputValues).forEach((entry) => {
       const [key, value] = entry;
-      updateErrors(key, value === '' ? errorMessages.empty : errors[key] as string);
+      updateErrors(key, value === '' ? errorMessages.empty : errors[key]);
     });
     if (!Object.values(errors).some((value) => value !== '') && inputValues.name !== '' && inputValues.surname !== '' && inputValues.email !== '' && inputValues.password !== '') {
       launchEdit(inputValues)
@@ -96,12 +95,17 @@ const EditInfosFormComponent: FC<EditInfosFormComponentProps> = ({ t }) => {
 
   // Gestion du reset
   const handleReset = () => {
-    setErrors({});
-    setInputValues({ 
+    setErrors({
+      name: '',
+      surname: '',
+      email: '',
+      password: '',
+    });
+    setInputValues({
       idUser: user.idUser,
-      name: user.name, 
-      surname: user.surname, 
-      email: user.email, 
+      name: user.name,
+      surname: user.surname,
+      email: user.email,
       password: '',
     });
   };
@@ -162,6 +166,4 @@ const EditInfosFormComponent: FC<EditInfosFormComponentProps> = ({ t }) => {
   );
 };
 
-const EditInfosFormWithTranslation = withTranslation()(EditInfosFormComponent);
-
-export default EditInfosFormWithTranslation;
+export default EditInfosFormComponent;

@@ -9,13 +9,16 @@ const router: Router = Router();
 router.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const client: PoolClient = await database.connect();
-
-    const email = req.body.email;
+    
+    const email = req.body.email;    
     const password = req.body.password;
 
     const result = await client.query('SELECT * FROM users WHERE email = $1', [email]);
+    
     client.release();
-    const passwordOk = await bcrypt.compare(password, result.rows[0].password)
+    const passwordCrypted = result.rows && result.rows.length > 0 ? result.rows[0].password || '' : '';
+    const passwordOk = await bcrypt.compare(password, passwordCrypted)    
+    
     if (result.rows.length && passwordOk) {
       const user = result.rows[0];
       const token = jwt.sign(user, process.env.JWT_SECRET || '123456789', { expiresIn: '1h' });
@@ -31,8 +34,10 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
 
 router.get("/verifyToken", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const authorizationHeader = req.header('Authorization');
-    if (!authorizationHeader || !authorizationHeader.includes('Bearer ')) {
+    const authorizationHeader = req.header('Authorization') || '';
+    console.log(authorizationHeader);
+    
+    if (!authorizationHeader.includes('Bearer ')) {
       res.status(401).json({ message: 'Bearer not included' });
       return;
     }

@@ -1,15 +1,39 @@
 {
-    "compilerOptions": {
-      "target": "ES6",
-      "resolveJsonModule": true,
-      "baseUrl": "./src",
-      "jsx": "react",
-      "esModuleInterop": true,
-      "paths": {
-        "*": ["types/*"]
-      },
-      "moduleResolution": "node",
-      "typeRoots" : ["node_modules/@types", "src/types"],
-      "experimentalDecorators": true
+  "compilerOptions": {
+    "target": "ES6",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "baseUrl": "./src",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "paths": {
+      "root/*": ["./*"],
+      "components/*": ["./components/*"],
+      "containers/*": ["./containers/*"],
+      "services/*": ["./services/*"],
+      "utils/*": ["./utils/*"]
     },
-  }
+    "typeRoots" : ["node_modules/@types", "src/types"],
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "../**/*",
+    "src/**/*",
+    "../server/src/**/*"
+  ],
+  "exclude": ["node_modules"],
+  "experimentalDecorators": true
+}

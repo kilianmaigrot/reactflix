@@ -29,7 +29,7 @@ const BodyPageComponent: FC<BodyComponentProps> = ({ children, pageName }: BodyC
       }
     };
 
-    changeLanguage().catch((err) => console.error('Error changing language:', err));
+    changeLanguage().catch(() => null);
   }, [user]);
 
   useEffect(() => {

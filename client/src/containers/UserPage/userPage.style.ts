@@ -33,6 +33,14 @@ export const FormButton = styled.button`
   }
 `;
 
+export const BackButton = styled.button`
+padding: 0.25rem 1rem 0.25rem 1rem;
+margin: 0.5rem;
+font-size: 0.75rem;
+justify-self: center;
+border-radius: 0.5rem;
+`;
+
 export const SideContainers = styled.article`
   background-color: ${(props) => props.theme.top as string}bb;
   color: ${(props) => props.theme.background as string};

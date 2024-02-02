@@ -5,7 +5,6 @@ interface PublicOnlyRoutesProps {
   isAuthenticated: boolean;
 }
 
-const PublicOnlyRoutes: FC<PublicOnlyRoutesProps> = ({ isAuthenticated }) =>
-  isAuthenticated ? <Navigate to='/user' /> : <Outlet />;
+const PublicOnlyRoutes: FC<PublicOnlyRoutesProps> = ({ isAuthenticated }) => (isAuthenticated ? <Navigate to='/user' /> : <Outlet />);
 
 export default PublicOnlyRoutes;

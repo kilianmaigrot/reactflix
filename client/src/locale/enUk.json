@@ -3,6 +3,14 @@
   "signUp": "Register",
   "welcomeMessage": "Welcome to the React Login app",
 
+  "pageName": {
+    "indexName": "React - Home page",
+    "registerName": "React - Register now",
+    "loginName": "React - Login",
+    "logoutName": "React - Logout",
+    "userpageName": "React - Userpage"
+  },
+
   "formT": {
     "editInfosFormTitle": "Edit my informations",
     "editPasswordFormTitle": "Change my password",
@@ -54,12 +62,12 @@
   "confirm": "Confirm",
   "cancel": "Cancel",
   "logout": "Log Out",
-  "close": "Close this window",
+  "close": "Close",
   "userInfos": "My informations",
   "editInfos": "Edit my informations",
   "editPassword": "Change my password",
 
   "userMessage": "Welcome {{surname}} {{name}}, you are user n°{{idUser}}, now logged in with your email {{email}}.",
   "logoutMessage": "Logging out",
-  "welcome": "Welcome"
+  "welcome": "Welcome "
 }

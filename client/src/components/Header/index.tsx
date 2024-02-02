@@ -12,7 +12,7 @@ const HeaderPageComponent: FC<HeaderComponentProps> = ({ t }) => {
 
   return (
     <SC.PageHeader>
-      <a href='/'>
+      <a href='/' aria-label='Link to Home Page'>
         <SC.HeaderImage src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/React_Logo_SVG.svg/langfr-1024px-React_Logo_SVG.svg.png' />
       </a>
 
@@ -27,7 +27,7 @@ const HeaderPageComponent: FC<HeaderComponentProps> = ({ t }) => {
 
       <SC.UserInfos $display={!displayNav} href='/user'>
         <p>
-          {t('welcome')} 
+          {t('welcome')}
           {user?.surname}
         </p>
       </SC.UserInfos>

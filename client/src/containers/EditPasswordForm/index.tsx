@@ -1,27 +1,22 @@
 import React, { 
   FC, useState, ChangeEvent, FocusEvent, FormEvent,
 } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import * as AxiosS from '../../services/axios.service';
 
 import InputComponent from '../../components/Input';
 import * as SC from './form.style';
-import { 
-  errorMessages, regexPatterns, errorsTop,
-} from '../../utils/formUtils';
+import FormUtils from '../../utils/formUtils';
 import { useUserContext } from '../../context/user-context';
 
-interface EditPasswordFormComponentProps extends WithTranslation {}
-
-const EditPasswordFormComponent: FC<EditPasswordFormComponentProps> = ({
-  t,
-}: EditPasswordFormComponentProps) => {
+const EditPasswordFormComponent: FC = () => {
+  const { t } = useTranslation();
   const { user } = useUserContext();
 
   interface ErrorsType {  
-    oldPassword?: string;
-    newPassword?: string;
+    [key: string]: string;
   }
+  const { errorMessages, regexPatterns, errorsTop } = FormUtils(); 
   const [errors, setErrors] = useState<ErrorsType>({});
 
   const [errorTop, setErrorTop] = useState<string>('');
@@ -40,18 +35,21 @@ const EditPasswordFormComponent: FC<EditPasswordFormComponentProps> = ({
   });
 
   const updateErrors = (updatedErrorKey: string, updatedError: string) => {
-    setErrors((prevErrors) => ({ ...prevErrors, updatedErrorKey: [updatedError] }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [updatedErrorKey]: updatedError,
+    }));
   };
-
+  
   const updateInputValues = (updatedValueKey: string, updatedValue: string) => {
-    setInputValues((prevValues) => ({ ...prevValues, updatedValueKey: [updatedValue] }));
+    setInputValues((prevValues) => ({ ...prevValues, [updatedValueKey]: updatedValue }));
   };
 
   // Vérifie une value si vide et avec un regex, et modifie les erreurs en conséquence
   const checkError = (value: string, regex: RegExp, errorType: string, errorKey: string) => {
     const emptyError: string = value === '' ? errorMessages.empty : '';
-    const regexError: string = regex && !regex.test(value) ? errorMessages[errorType] as string : '';
-    const error: string = emptyError !== '' ? emptyError : regexError;
+    const regexError: string = regex && !regex.test(value) ? errorMessages[errorType] : '';
+    const error: string = emptyError !== '' ? emptyError : regexError;    
     updateErrors(errorKey, error);
   };
 
@@ -62,8 +60,8 @@ const EditPasswordFormComponent: FC<EditPasswordFormComponentProps> = ({
 
   // Gère le blur d'un inputArea
   const handleBlur = (inputArea: FocusEvent<HTMLInputElement>) => {
-    const regex: RegExp = regexPatterns[inputArea.target.name] as RegExp;
-    checkError(inputArea.target.value, regex, inputArea.target.name, inputArea.target.name);
+    const regex: RegExp = regexPatterns[inputArea.target.type];    
+    checkError(inputArea.target.value, regex, inputArea.target.type, inputArea.target.name);
     updateInputValues(inputArea.target.name, inputArea.target.value);
   };
 
@@ -76,7 +74,7 @@ const EditPasswordFormComponent: FC<EditPasswordFormComponentProps> = ({
     event.preventDefault();
     Object.entries(inputValues).forEach((entry) => {
       const [key, value] = entry;
-      updateErrors(key, value === '' ? errorMessages.empty : errors[key] as string);
+      updateErrors(key, value === '' ? errorMessages.empty : errors[key]);
     });
     if (!Object.values(errors).some((value) => value !== '') && inputValues.oldPassword !== '' && inputValues.newPassword !== '') {
       launchPasswordEdit(inputValues) // idUser et mail dans inputValues
@@ -132,6 +130,4 @@ const EditPasswordFormComponent: FC<EditPasswordFormComponentProps> = ({
   );
 };
 
-const EditPasswordFormWithTranslation = withTranslation()(EditPasswordFormComponent);
-
-export default EditPasswordFormWithTranslation;
+export default EditPasswordFormComponent;

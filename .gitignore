@@ -2,3 +2,6 @@
 /client/node_modules
 /server/node_modules/*
 /client/node_modules/*
+/client-old/node_modules
+/client-old/node_modules/*
+/client/APIGuide.txt

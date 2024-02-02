@@ -2,28 +2,26 @@ import React, {
   FC, ReactNode, useState, ChangeEvent, FocusEvent, FormEvent,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { AxiosError } from 'axios';
 import * as AxiosS from '../../services/axios.service';
 
 import InputComponent from '../../components/Input';
 import * as SC from './form.style';
-import { 
-  errorMessages, regexPatterns, errorsTop,
-} from '../../utils/formUtils';
+import FormUtils from '../../utils/formUtils';
 
-interface RegisterFormComponentProps extends WithTranslation {
+interface RegisterFormComponentProps {
   children: ReactNode;
 }
 
-const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children, t }) => {
+const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   interface ErrorsType {    
-    name?: string;  
-    surname?: string;
-    email?: string;
-    password?: string;
+    [key: string]: string;
   }
+  const { errorMessages, regexPatterns, errorsTop } = FormUtils();  
   const [errors, setErrors] = useState<ErrorsType>({});
   const [errorTop, setErrorTop] = useState<string>('');
 
@@ -41,17 +39,20 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children, t }) 
   });
 
   const updateErrors = (updatedErrorKey: string, updatedError: string) => {
-    setErrors((prevErrors) => ({ ...prevErrors, updatedErrorKey: [updatedError] }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [updatedErrorKey]: updatedError,
+    }));
   };
-
+  
   const updateInputValues = (updatedValueKey: string, updatedValue: string) => {
-    setInputValues((prevValues) => ({ ...prevValues, updatedValueKey: [updatedValue] }));
+    setInputValues((prevValues) => ({ ...prevValues, [updatedValueKey]: updatedValue }));
   };
 
   // Vérifie une value si vide et avec un regex, et modifie les erreurs en conséquence
   const checkError = (value: string, regex: RegExp, errorType: string, errorKey: string) => {
     const emptyError: string = value === '' ? errorMessages.empty : '';
-    const regexError: string = regex && !regex.test(value) ? errorMessages[errorType] as string : '';
+    const regexError: string = regex && !regex.test(value) ? errorMessages[errorType] : '';
     const error: string = emptyError !== '' ? emptyError : regexError;
     updateErrors(errorKey, error);
   };
@@ -63,7 +64,7 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children, t }) 
 
   // Gère le blur d'un inputArea
   const handleBlur = (inputArea: FocusEvent<HTMLInputElement>) => {
-    const regex: RegExp = regexPatterns[inputArea.target.name] as RegExp;
+    const regex: RegExp = regexPatterns[inputArea.target.name];
     checkError(inputArea.target.value, regex, inputArea.target.name, inputArea.target.name);
     updateInputValues(inputArea.target.name, inputArea.target.value);
   };
@@ -72,21 +73,24 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children, t }) 
   const launchRegistration = (userData: UserObject) => AxiosS.register(userData)
     .then((response) => {
       if (response.status === 201) {
-        navigate('/login/inscriptionOk');
+        navigate('/login/inscriptionOk');   
+        
         return 'inscriptionOk';
-      }
-      if (response.status === 409) {
-        throw new Error('errorExistingUser');
       }
       throw new Error('errorServer');
     })
-    .catch(() => { throw new Error('editWrongPassword'); });
+    .catch((error: AxiosError) => {
+      if (error.response?.status === 409) {
+        throw new Error('errorExistingUser');
+      }
+      throw new Error('errorServer');
+    });
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     Object.entries(inputValues).forEach((entry) => {
       const [key, value] = entry;
-      updateErrors(key, value === '' ? errorMessages.empty : errors[key] as string);
+      updateErrors(key, value === '' ? errorMessages.empty : errors[key]);
     });
     if (!Object.values(errors).some((value) => value !== '') && inputValues.name !== '' && inputValues.surname !== '' && inputValues.email !== '' && inputValues.password !== '') {
       launchRegistration(inputValues)
@@ -166,6 +170,4 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children, t }) 
   );
 };
 
-const RegisterFormWithTranslation = withTranslation()(RegisterFormComponent);
-
-export default RegisterFormWithTranslation;
+export default RegisterFormComponent;
