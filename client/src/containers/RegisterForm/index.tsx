@@ -19,13 +19,6 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children }) => 
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  type UserObject = {
-    name: string;
-    surname: string;
-    email: string;
-    password: string;
-  };
-
   const { 
     state: inputValues, editValue, editError, restartInputValues,
   } = useFormValues({
@@ -71,11 +64,17 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children }) => 
   };
 
   // Gestion de la soumission du formulaire
+  type UserObject = {
+    name: string;
+    surname: string;
+    email: string;
+    password: string;
+  };
+
   const launchRegistration = (userData: UserObject) => AxiosS.register(userData)
     .then((response) => {
       if (response.status === 201) {
         navigate('/login/inscriptionOk');
-
         return 'inscriptionOk';
       }
       throw new Error('errorServer');
@@ -89,32 +88,21 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children }) => 
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    let emptyValue = false;
+    let problemDetected = false;
     const submitData = { 
       name: inputValues.name.value,
       surname: inputValues.surname.value,
       email: inputValues.email.value,
       password: inputValues.password.value,
     };
-    const submitError = {
-      name: inputValues.name.error,
-      surname: inputValues.surname.error,
-      email: inputValues.email.error,
-      password: inputValues.password.error,
-    };
     Object.entries(submitData).forEach((entry) => {
       const [key, value] = entry;
-      editError({ inputKey: key, error: value === '' ? errorMessages.empty : inputValues.key.error });
-      emptyValue = value === '' && true;
+      editError({ inputKey: key, error: value === '' ? errorMessages.empty : inputValues[key].error });
+      problemDetected = (value === '' || inputValues[key].error !== '') && true;
     });
-    if (!Object.values(submitError).some((value) => value !== '') && !emptyValue) {
+    if (!problemDetected) {
       launchRegistration(submitData).catch((err) => setErrorTop((err as Error).message));
     }
-  };
-
-  // Gestion du reset
-  const handleReset = () => {
-    restartInputValues();
   };
 
   return (
@@ -165,7 +153,7 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children }) => 
         />
         <SC.ButtonArea>
           <SC.FormButton type='submit'>{t('confirm')}</SC.FormButton>
-          <SC.FormButton type='reset' onClick={handleReset}>
+          <SC.FormButton type='reset' onClick={restartInputValues}>
             {t('cancel')}
           </SC.FormButton>
         </SC.ButtonArea>

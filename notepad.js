@@ -6,7 +6,7 @@
 // GitLab perso OK
 // complexity OK set to 5
 
-// /!\ Usereducer /!\ OK sur formLogin, a appliquer sur les autres
+// /!\ Usereducer /!\ OK sur formRegister, a appliquer sur les autres
 
 
 // Export des constantes des compos dans un autre doc

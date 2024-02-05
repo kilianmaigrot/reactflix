@@ -35,7 +35,6 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
 router.get("/verifyToken", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const authorizationHeader = req.header('Authorization') || '';
-    console.log(authorizationHeader);
     
     if (!authorizationHeader.includes('Bearer ')) {
       res.status(401).json({ message: 'Bearer not included' });

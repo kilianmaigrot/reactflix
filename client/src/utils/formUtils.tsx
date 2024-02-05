@@ -45,6 +45,8 @@ const FormUtilsComponent = () => {
     surname: /^[A-Za-zÀ-ÖØ-öø-ÿ]{2,}$/,
     email: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
     password: /^(?=.*[A-Z])(?=.*\d).{8,}$/,
+    oldPassword: /^(?=.*[A-Z])(?=.*\d).{8,}$/,
+    newPassword: /^(?=.*[A-Z])(?=.*\d).{8,}$/,
   };
 
   // Return the values as an object

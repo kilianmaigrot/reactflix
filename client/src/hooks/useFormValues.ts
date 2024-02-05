@@ -1,7 +1,8 @@
 import { useReducer } from 'react';
 
 type ValueKey = string;
-type ActionValuePayload = {
+
+type ActionEditPayload = {
   inputKey: ValueKey;
   value: string;
 };
@@ -11,7 +12,7 @@ type ActionErrorPayload = {
 };
 type EditValueAction = {
   type: 'EDIT_VALUE';
-  payload: ActionValuePayload;
+  payload: ActionEditPayload;
 };
 type EditErrorAction = {
   type: 'EDIT_ERROR';
@@ -63,7 +64,7 @@ function useFormValues(initialValues: StartingValues = {}) {
   
   return {
     state,
-    editValue: (values: ActionValuePayload) => dispatch({ type: 'EDIT_VALUE', payload: values }),
+    editValue: (values: ActionEditPayload) => dispatch({ type: 'EDIT_VALUE', payload: values }),
     editError: (values: ActionErrorPayload) => dispatch({ type: 'EDIT_ERROR', payload: values }),
     restartInputValues: () => dispatch({ type: 'RESTART_VALUES' }),
   };

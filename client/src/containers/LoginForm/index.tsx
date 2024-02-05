@@ -11,6 +11,7 @@ import * as AxiosS from '../../services/axios.service';
 import InputComponent from '../../components/Input';
 import * as SC from './form.style';
 import FormUtils from '../../utils/formUtils';
+import useFormValues from '../../hooks/useFormValues';
 
 interface LoginFormComponentProps {
   children: ReactNode;
@@ -24,58 +25,46 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  interface ErrorsType {
-    [key: string]: string;
-  }
+  const { 
+    state: inputValues, editValue, editError, restartInputValues,
+  } = useFormValues({
+    email: {
+      value: '',
+      error: '',
+    },
+    password: {
+      value: '',
+      error: '',
+    },
+  });
 
   const { errorMessages, regexPatterns, errorsTop } = FormUtils();
-  const [errors, setErrors] = useState<ErrorsType>({});
   const { messageTop } = useParams();
   const [errorTop, setErrorTop] = useState<string>('');
   if (messageTop && errorTop !== messageTop) {
     setErrorTop(messageTop);
   }
 
-  type InputsType = {
-    email: string;
-    password: string;
-  };
-  const [inputValues, setInputValues] = useState<InputsType>({
-    email: '',
-    password: '',
-  });
-
   const { setUser } = useUserContext();
-
-  const updateErrors = (updatedErrorKey: string, updatedError: string) => {
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [updatedErrorKey]: updatedError,
-    }));
-  };
-
-  const updateInputValues = (updatedValueKey: string, updatedValue: string) => {
-    setInputValues((prevValues) => ({ ...prevValues, [updatedValueKey]: updatedValue }));
-  };
 
   // Vérifie une value si vide et avec un regex, et modifie les erreurs en conséquence
   const checkError = (value: string, regex: RegExp, errorType: string, errorKey: string) => {
     const emptyError: string = value === '' ? errorMessages.empty : '';
     const regexError: string = regex && !regex.test(value) ? errorMessages[errorType] : '';
     const error: string = emptyError !== '' ? emptyError : regexError;
-    updateErrors(errorKey, error);
+    editError({ inputKey: errorKey, error });
   };
 
   // Redéfinition des values à la saisie
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    updateInputValues(event.target.name, event.target.value);
+    editValue({ inputKey: event.target.name, value: event.target.value });
   };
 
   // Gère le blur d'un inputArea
   const handleBlur = (inputArea: FocusEvent<HTMLInputElement>) => {
     const regex: RegExp = regexPatterns[inputArea.target.name];
     checkError(inputArea.target.value, regex, inputArea.target.name, inputArea.target.name);
-    updateInputValues(inputArea.target.name, inputArea.target.value);
+    editValue({ inputKey: inputArea.target.name, value: inputArea.target.value });
   };
 
   // Gestion de la soumission du formulaire
@@ -90,7 +79,12 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
     };
   }
 
-  const launchLogin = async (userData: InputsType): Promise<string> => {
+  type UserData = {
+    email: string;
+    password: string;
+  };
+
+  const launchLogin = async (userData: UserData): Promise<string> => {
     try {
       const response = await AxiosS.login(userData);
       const responseData = response.data as SuccessfulLoginResponse;
@@ -114,31 +108,23 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    Object.entries(inputValues).forEach((entry) => {
+    let problemDetected = false;
+    const submitData = { 
+      email: inputValues.email.value,
+      password: inputValues.password.value,
+    };
+    Object.entries(submitData).forEach((entry) => {
       const [key, value] = entry;
-      updateErrors(key, value === '' ? errorMessages.empty : errors[key]);
+      editError({ inputKey: key, error: value === '' ? errorMessages.empty : inputValues[key].error });
+      problemDetected = (value === '' || inputValues[key].error !== '') && true;
     });
-    if (
-      !Object.values(errors).some((value) => value !== '')
-      && inputValues.email !== ''
-      && inputValues.password !== ''
-    ) {
-      launchLogin(inputValues)
+    if (!problemDetected) {
+      launchLogin(submitData)
         .then((result) => {
           result === 'editOk' ? navigate('/user') : setErrorTop('errorExistingUser');
         })
         .catch((err) => setErrorTop((err as Error).message));
     }
-  };
-
-  // Gestion du reset
-  const handleReset = () => {
-    setErrors({});
-    setInputValues({
-      email: '',
-      password: '',
-    });
-    setErrorTop('');
   };
 
   return (
@@ -154,9 +140,9 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
           type='email'
           label={t('formT.emailLabel')}
           placeHolder={t('formT.emailPlaceholder')}
-          errorMessage={errors.email}
+          errorMessage={inputValues.email.error}
           onBlur={handleBlur}
-          value={inputValues.email}
+          value={inputValues.email.value}
           onChange={handleChange}
         />
         <InputComponent
@@ -164,15 +150,15 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
           type='password'
           label={t('formT.passwordLabel')}
           placeHolder={t('formT.passwordPlaceholder')}
-          errorMessage={errors.password}
+          errorMessage={inputValues.password.error}
           onBlur={handleBlur}
-          value={inputValues.password}
+          value={inputValues.password.value}
           onChange={handleChange}
         />
         <a href='/'>{t('formT.forgotPassword')}</a>
         <SC.ButtonArea>
           <SC.FormButton type='submit'>{t('confirm')}</SC.FormButton>
-          <SC.FormButton type='reset' onClick={handleReset}>
+          <SC.FormButton type='reset' onClick={restartInputValues}>
             {t('cancel')}
           </SC.FormButton>
         </SC.ButtonArea>
