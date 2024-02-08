@@ -27,13 +27,13 @@
       "services/*": ["./services/*"],
       "utils/*": ["./utils/*"]
     },
-    "typeRoots" : ["node_modules/@types", "src/types"],
-    "jsx": "react-jsx"
+    "typeRoots" : ["node_modules/@types", "src/types", "node_modules/@testing-library"],
+    "jsx": "react"
   },
   "include": [
     "../**/*",
-    "src/**/*",
-    "../server/src/**/*"
+    "./src/**/**.*",
+    "src/**/*"
   ],
   "exclude": ["node_modules"],
   "experimentalDecorators": true

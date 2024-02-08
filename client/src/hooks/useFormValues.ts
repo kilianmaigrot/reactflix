@@ -19,7 +19,7 @@ type EditErrorAction = {
   payload: ActionErrorPayload;
 };
 type RestartValueAction = {
-  type: 'RESTART_VALUES';
+  type: 'RESET_VALUES';
 };
 type StateValue = {
   value: string;
@@ -49,7 +49,7 @@ const formValuesReducer = (state: State, action: ActionTypes): State => {
           error: action.payload.error,
         },
       };
-    case 'RESTART_VALUES':
+    case 'RESET_VALUES':
       return { ...startingValuesInitial };
     default:
       return state;
@@ -66,7 +66,7 @@ function useFormValues(initialValues: StartingValues = {}) {
     state,
     editValue: (values: ActionEditPayload) => dispatch({ type: 'EDIT_VALUE', payload: values }),
     editError: (values: ActionErrorPayload) => dispatch({ type: 'EDIT_ERROR', payload: values }),
-    restartInputValues: () => dispatch({ type: 'RESTART_VALUES' }),
+    restartInputValues: () => dispatch({ type: 'RESET_VALUES' }),
   };
 }
 

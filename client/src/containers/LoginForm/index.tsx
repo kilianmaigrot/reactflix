@@ -57,14 +57,14 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
 
   // Redéfinition des values à la saisie
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    editValue({ inputKey: event.target.name, value: event.target.value });
+    editValue({ inputKey: event.target.id, value: event.target.value });
   };
 
   // Gère le blur d'un inputArea
   const handleBlur = (inputArea: FocusEvent<HTMLInputElement>) => {
     const regex: RegExp = regexPatterns[inputArea.target.name];
-    checkError(inputArea.target.value, regex, inputArea.target.name, inputArea.target.name);
-    editValue({ inputKey: inputArea.target.name, value: inputArea.target.value });
+    checkError(inputArea.target.value, regex, inputArea.target.id, inputArea.target.id);
+    editValue({ inputKey: inputArea.target.id, value: inputArea.target.value });
   };
 
   // Gestion de la soumission du formulaire
@@ -86,44 +86,48 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
 
   const launchLogin = async (userData: UserData): Promise<string> => {
     try {
-      const response = await AxiosS.login(userData);
-      const responseData = response.data as SuccessfulLoginResponse;
+      const response = await AxiosS.login(userData);  
+      const responseData = response.data as SuccessfulLoginResponse;   
       setUser({
         idUser: responseData.user.id_user,
         name: responseData.user.name,
         surname: responseData.user.surname,
         email: responseData.user.email,
         userLanguage: responseData.user.user_language,
-      });
+      });      
       onLogin(true);
       const d: Date = new Date();
       d.setTime(d.getTime() + 60 * 60 * 1000);
       document.cookie = `jwtToken=${responseData.token}; expires=${d.toUTCString()}; path=/; secure`;
-      return 'editOk';
-    } catch (error: unknown) {
+      return 'loginOk';
+    } catch (error: unknown) {   
       const isUnauthorizedError = (error as AxiosError).response?.status === 401;
       throw isUnauthorizedError ? new Error('errorLogin') : new Error('errorServer');
     }
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {    
     event.preventDefault();
     let problemDetected = false;
     const submitData = { 
       email: inputValues.email.value,
       password: inputValues.password.value,
     };
+    
     Object.entries(submitData).forEach((entry) => {
       const [key, value] = entry;
       editError({ inputKey: key, error: value === '' ? errorMessages.empty : inputValues[key].error });
       problemDetected = (value === '' || inputValues[key].error !== '') && true;
     });
+    
     if (!problemDetected) {
       launchLogin(submitData)
         .then((result) => {
-          result === 'editOk' ? navigate('/user') : setErrorTop('errorExistingUser');
+          result === 'loginOk' ? navigate('/user') : setErrorTop('errorExistingUser');
         })
-        .catch((err) => setErrorTop((err as Error).message));
+        .catch((err) => {
+          setErrorTop((err as Error).message);
+        });
     }
   };
 
@@ -144,6 +148,7 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
           onBlur={handleBlur}
           value={inputValues.email.value}
           onChange={handleChange}
+          autofocus
         />
         <InputComponent
           name='password'

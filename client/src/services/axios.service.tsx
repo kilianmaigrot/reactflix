@@ -12,14 +12,8 @@ export const register = (postData: object): Promise<AxiosResponse<object>> => ax
   .then((response) => response)
   .catch((error) => Promise.reject(error));
 
-export const verifyToken = async () => {
-  const token = document.cookie.replace(/(?:(?:^|.*;\s*)jwtToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
-
-  if (!token) {
-    return false;
-  }
+export const verifyToken = async (token: string) => {
   const headers = { headers: { Authorization: `Bearer ${token}` } };
-
   try {
     const response = await axios.get('/login/verifyToken', headers);
     return response.status === 200;
@@ -29,7 +23,8 @@ export const verifyToken = async () => {
 };
 
 export const updateLanguage = async (postData: object): Promise<object | undefined> => {
-  const tokenVerified = await verifyToken();
+  const token = document.cookie.replace(/(?:(?:^|.*;\s*)jwtToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+  const tokenVerified = await verifyToken(token);
   if (tokenVerified) {
     const response = await axios.patch<{ message: string }>('/users/updateLanguage', postData);
     return response;
@@ -45,15 +40,27 @@ export type UpdateUserPayload = {
   password: string;
 };
 
-export const updateUser = async (postData: UpdateUserPayload): Promise<object | undefined> => {
-  const loginReturn = await login({ email: postData.email, password: postData.password });
-  const tokenVerified: boolean = await verifyToken();
+type LoginUserData = {
+  email: string;
+  password: string;
+};
 
-  if (tokenVerified && loginReturn.status === 200) {
+const verifyTokenAndLogin = async (loginData: LoginUserData) => {
+  const token = document.cookie.replace(/(?:(?:^|.*;\s*)jwtToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+  const loginReturn = await login(loginData);
+  if (loginReturn.status === 200) {
+    const tokenVerified: boolean = await verifyToken(token);
+    return (tokenVerified);
+  }
+  return false;
+};
+
+export const updateUser = async (postData: UpdateUserPayload): Promise<object | undefined> => {
+  if (await verifyTokenAndLogin({ email: postData.email, password: postData.password })) {
     const response = await axios.patch('/users/updateUser', postData);
     return response;
   }
-  return undefined;
+  throw new Error('editWrongPassword');
 };
 
 export const updatePassword = async (postData: {
@@ -62,10 +69,7 @@ export const updatePassword = async (postData: {
   newPassword: string;
   email: string;
 }): Promise<object | undefined> => {
-  const loginReturn = await login({ email: postData.email, password: postData.oldPassword });
-  const tokenVerified: boolean = await verifyToken();
-
-  if (tokenVerified && loginReturn.status === 200) {
+  if (await verifyTokenAndLogin({ email: postData.email, password: postData.oldPassword })) {
     const response = await axios.patch('/users/updatePassword', postData);
     return response;
   }

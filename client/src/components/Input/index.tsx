@@ -10,6 +10,7 @@ interface InputComponentProps {
   onBlur: (event: FocusEvent<HTMLInputElement>) => void;
   value: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  autofocus?: boolean;
 }
 
 const InputComponent: FC<InputComponentProps> = ({
@@ -21,20 +22,23 @@ const InputComponent: FC<InputComponentProps> = ({
   onBlur,
   value,
   onChange,
+  autofocus = false,
 }: InputComponentProps) => (
-  <SC.LabelContainer htmlFor={name}>
+  <SC.LabelContainer id={`${name}-label`} htmlFor={name}>
     {label}
     <SC.ErrorMessageSpan $display={errorMessage}>{errorMessage}</SC.ErrorMessageSpan>
     <SC.FormInput
       $displayBorder={!!errorMessage}
       type={type}
+      id={name}
       name={name}
       placeholder={placeHolder}
-      aria-label={`${name}-input-field`}
+      aria-labelledby={`${name}-label`}
       onBlur={(event) => onBlur(event)}
       value={value}
       onChange={(event) => onChange(event)}
       autoComplete='off'
+      autoFocus={autofocus}
     />
   </SC.LabelContainer>
 );

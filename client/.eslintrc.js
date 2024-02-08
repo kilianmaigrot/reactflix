@@ -69,12 +69,17 @@ module.exports = {
           },
         ],
         'react/no-danger': 0,
-        'linebreak-style': 0,
-        "complexity": ["error", 5]
+        "linebreak-style": 0,
+        "complexity": ["error", 5],
+        "react/require-default-props": "off"
       },
     },
   ],
   plugins: ['react', 'react-hooks', '@typescript-eslint', 'prettier'],
+  rules: {    
+    "linebreak-style": 0,
+    "react/require-default-props": "off"
+  },
   settings: {
     'import/resolver': {
       typescript: {},

@@ -47,14 +47,14 @@ const EditPasswordFormComponent: FC = () => {
 
   // Redéfinition des values à la saisie
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    editValue({ inputKey: event.target.name, value: event.target.value });
+    editValue({ inputKey: event.target.id, value: event.target.value });
   };
 
   // Gère le blur d'un inputArea
   const handleBlur = (inputArea: FocusEvent<HTMLInputElement>) => {
-    const regex: RegExp = regexPatterns[inputArea.target.name];
-    checkError(inputArea.target.value, regex, 'password', inputArea.target.name);// Tous les champs sont de type password sur ce form
-    editValue({ inputKey: inputArea.target.name, value: inputArea.target.value });
+    const regex: RegExp = regexPatterns[inputArea.target.name];    
+    checkError(inputArea.target.value, regex, 'password', inputArea.target.id);
+    editValue({ inputKey: inputArea.target.id, value: inputArea.target.value });
   };
 
   // Gestion de la soumission du formulaire
@@ -79,7 +79,7 @@ const EditPasswordFormComponent: FC = () => {
       email: inputValues.email.value,
       oldPassword: inputValues.oldPassword.value,
       newPassword: inputValues.newPassword.value,
-    };
+    };    
     Object.entries(submitData).forEach((entry) => {
       const [key, value] = entry;
       editError({ inputKey: key, error: value === '' ? errorMessages.empty : inputValues[key].error });

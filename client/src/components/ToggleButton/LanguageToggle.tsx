@@ -11,7 +11,6 @@ interface LanguageToggleButtonProps {
 
 const LanguageToggleButton: FC<LanguageToggleButtonProps> = ({ toggled }) => {
   const { user, setUser } = useUserContext();
-
   const [isToggled, toggle] = useState<boolean>(toggled);
 
   interface PostDataType {

@@ -19,7 +19,8 @@ function App() {
 
   useEffect(() => {
     const verifyToken = async () => {
-      const response = await AxiosS.verifyToken();
+      const token = document.cookie.replace(/(?:(?:^|.*;\s*)jwtToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+      const response = await AxiosS.verifyToken(token);
       setIsAuthenticated(response);
     };
 

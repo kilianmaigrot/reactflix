@@ -53,14 +53,14 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children }) => 
 
   // Redéfinition des values à la saisie
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    editValue({ inputKey: event.target.name, value: event.target.value });
+    editValue({ inputKey: event.target.id, value: event.target.value });
   };
 
   // Gère le blur d'un inputArea
   const handleBlur = (inputArea: FocusEvent<HTMLInputElement>) => {
     const regex: RegExp = regexPatterns[inputArea.target.name];
-    checkError(inputArea.target.value, regex, inputArea.target.name, inputArea.target.name);
-    editValue({ inputKey: inputArea.target.name, value: inputArea.target.value });
+    checkError(inputArea.target.value, regex, inputArea.target.id, inputArea.target.id);
+    editValue({ inputKey: inputArea.target.id, value: inputArea.target.value });
   };
 
   // Gestion de la soumission du formulaire

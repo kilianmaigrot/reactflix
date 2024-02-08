@@ -1,5 +1,5 @@
 import React, { FC, StrictMode } from 'react';
-import '../../styles.css';
+// import '../../styles.css';
 import { useTranslation } from 'react-i18next';
 
 import RegisterFormComponent from '../../containers/RegisterForm';
