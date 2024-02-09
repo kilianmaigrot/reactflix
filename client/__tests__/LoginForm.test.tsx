@@ -19,7 +19,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-describe('LoginForm', () => {
+describe('Testing Login Form', () => {
   it('shows empty errors if clikcing on confirm with 2 empty fields without sending the form', async () => {
     render(
       <LoginFormComponent onLogin={onLogin}>
@@ -89,6 +89,9 @@ describe('LoginForm', () => {
     const submitButton = screen.getByRole('button', { name: /confirm/i });
     const successLoginPayload = {
       status: 200,
+      data: {
+        token: 'tokenTest',
+      },
     };
     (axios.post as jest.MockedFunction<typeof axios.post>).mockResolvedValueOnce(successLoginPayload);
 
@@ -98,6 +101,7 @@ describe('LoginForm', () => {
 
     await waitFor(() => {
       expect(axios.post).toHaveBeenCalledWith('/login', { email: 'kilian.maigrot@gmail.com', password: 'AR3SRW6Iy' });
+      expect(onLogin).toHaveBeenCalledWith(true);    
     });
   });
 

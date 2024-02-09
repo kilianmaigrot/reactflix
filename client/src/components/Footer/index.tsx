@@ -1,8 +1,8 @@
 import React from 'react';
 import PageFooter from './footer.style';
 import { DarkmodeToggleButton, LanguageToggleButton } from '../ToggleButton';
-import { useStyleThemeContext } from '../../context/style-context';
-import { useUserContext } from '../../context/user-context';
+import { useStyleThemeContext } from '../../context/styleContext';
+import { useUserContext } from '../../context/userContext';
 
 interface FooterComponentProps {}
 

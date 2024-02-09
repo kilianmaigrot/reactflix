@@ -7,7 +7,7 @@ import EditInfosFormComponent from 'root/containers/EditInfosForm';
 import '@testing-library/jest-dom';
 import { userEvent } from '@testing-library/user-event';
 import axios from 'axios';
-import { UserContext } from 'root/context/user-context';
+import { UserContext } from 'root/context/userContext';
 
 jest.mock('axios');
 const contextCallback = jest.fn();
@@ -36,7 +36,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-describe('RegisterForm', () => {
+describe('Testing Edit Infos form', () => {
   it('shows the user data in the context beside the password', async () => {
     const inputFields = renderFormAndTargetInputs();
     expect(inputFields.name).toHaveValue('Maigrot');

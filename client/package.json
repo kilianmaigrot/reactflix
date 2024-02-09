@@ -13,12 +13,14 @@
     "i18next": "^23.8.2",
     "i18next-browser-languagedetector": "^7.2.0",
     "i18next-http-backend": "^2.4.2",
+    "jsdom-global": "^3.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^14.0.1",
     "react-router-dom": "^6.21.2",
     "react-scripts": "5.0.1",
     "styled-components": "^6.1.8",
+    "text-encoding": "^0.7.0",
     "ts-jest": "^29.1.2",
     "web-vitals": "^2.1.4"
   },
@@ -47,6 +49,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
+    "jsdom": "^24.0.0",
     "prettier": "^3.2.4",
     "react-test-renderer": "^18.2.0",
     "ts-jest": "^29.1.2",
@@ -84,19 +87,5 @@
   },
   "resolutions": {
     "styled-components": "^5"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "jsdom",
-    "moduleNameMapper": {
-      "^root/(.*)$": "<rootDir>/src/$1",
-      "^components/(.*)$": "<rootDir>/src/components/$1",
-      "^hooks/(.*)$": "<rootDir>/src/hooks/$1",
-      "^containers/(.*)$": "<rootDir>/src/containers/$1",
-      "^services/(.*)$": "<rootDir>/src/services/$1",
-      "^utils/(.*)$": "<rootDir>/src/utils/$1",
-      "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/mocks/fileMock.tsx",
-      "\\.(css|less)$": "<rootDir>/mocks/fileMock.tsx"
-    }
   }
 }

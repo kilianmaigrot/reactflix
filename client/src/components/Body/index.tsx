@@ -3,8 +3,8 @@ import { ThemeProvider } from 'styled-components';
 import { I18nextProvider } from 'react-i18next';
 import * as SC from './body.style';
 import { lightTheme, darkTheme } from '../../themes/Theme';
-import { useStyleThemeContext } from '../../context/style-context';
-import { useUserContext } from '../../context/user-context';
+import { useStyleThemeContext } from '../../context/styleContext';
+import { useUserContext } from '../../context/userContext';
 
 import i18n from '../../locale/i18n';
 

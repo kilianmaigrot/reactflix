@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as AxiosS from '../../services/axios.service';
-import { useUserContext } from '../../context/user-context';
+import { useUserContext } from '../../context/userContext';
 
 import InputComponent from '../../components/Input';
 import * as SC from './form.style';
@@ -12,7 +12,7 @@ import useFormValues from '../../hooks/useFormValues';
 
 const EditInfosFormComponent: FC = () => {
   const { t } = useTranslation();
-  const { user, setUser } = useUserContext();
+  const { user, setUser } = useUserContext();  
 
   const { 
     state: inputValues, editValue, editError, restartInputValues,

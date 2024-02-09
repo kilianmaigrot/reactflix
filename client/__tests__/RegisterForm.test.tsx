@@ -33,7 +33,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-describe('RegisterForm', () => {
+describe('Testing Register Form', () => {
   it('shows empty errors if clikcing on confirm with 4 empty fields without sending the form', async () => {
     render(
       <RegisterFormComponent>

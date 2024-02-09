@@ -2,8 +2,8 @@ import React, { StrictMode } from 'react';
 import '../../styles.css';
 import { useTranslation } from 'react-i18next';
 
-import UserPageComponent from '../../containers/UserPage';
-import { useUserContext } from '../../context/user-context';
+import UserPageComponent from '../../containers/UserPageContainer';
+import { useUserContext } from '../../context/userContext';
 import HeaderPageComponent from '../../components/Header';
 import FooterPageComponent from '../../components/Footer';
 import BodyPageComponent from '../../components/Body';
@@ -20,12 +20,7 @@ const UserPage = () => {
     <StrictMode>
       <BodyPageComponent pageName={t('pageName.userpageName')}>
         <HeaderPageComponent />
-        <UserPageComponent
-          name={user.name}
-          surname={user.surname}
-          email={user.email}
-          idUser={user.idUser}
-        />
+        <UserPageComponent />
         <FooterPageComponent />
       </BodyPageComponent>
     </StrictMode>

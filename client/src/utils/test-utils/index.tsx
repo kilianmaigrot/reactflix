@@ -1,7 +1,7 @@
 import React, { ReactElement, StrictMode, useMemo } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
-import setUser, { UserContext } from 'root/context/user-context';
-import { StyleThemeProvider } from 'root/context/style-context';
+import setUser, { UserContext } from 'root/context/userContext';
+import setStyleTheme, { StyleThemeContext } from 'root/context/styleContext';
 import { BrowserRouter } from 'react-router-dom';
 
 const userData = {
@@ -12,19 +12,26 @@ const userData = {
   userLanguage: 'frFr',
 };
 
-const getContextValue = () => {
-  const contextValue = (useMemo(() => ({ user: userData, setUser: () => {} }), [userData, setUser]));
+const styleTheme = 'dark-mode';
+
+const getUserContextValue = () => {
+  const contextValue = useMemo(() => ({ user: userData, setUser: () => {} }), [userData, setUser]);
+  return contextValue;
+};
+
+const getStyleContextValue = () => {
+  const contextValue = useMemo(() => ({ styleTheme, setStyleTheme: () => {} }), [styleTheme, setStyleTheme]);
   return contextValue;
 };
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => (
   <StrictMode>
-    <UserContext.Provider value={getContextValue()}>
-      <StyleThemeProvider>
+    <UserContext.Provider value={getUserContextValue()}>
+      <StyleThemeContext.Provider value={getStyleContextValue()}>
         <BrowserRouter>
           {children}
         </BrowserRouter>
-      </StyleThemeProvider>
+      </StyleThemeContext.Provider>
     </UserContext.Provider>
   </StrictMode>
 );

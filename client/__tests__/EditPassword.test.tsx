@@ -7,7 +7,7 @@ import EditPasswordFormComponent from 'root/containers/EditPasswordForm';
 import '@testing-library/jest-dom';
 import { userEvent } from '@testing-library/user-event';
 import axios from 'axios';
-import { UserContext } from 'root/context/user-context';
+import { UserContext } from 'root/context/userContext';
 
 jest.mock('axios');
 const contextCallback = jest.fn();
@@ -32,7 +32,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-describe('RegisterForm', () => {
+describe('Testing Edit Password form', () => {
   it('shows empty errors if clicking on confirm with 2 empty fields without sending the form', async () => {
     render(<EditPasswordFormComponent />);
     await userEvent.click(screen.getByRole('button', { name: /confirm/i }));
@@ -88,6 +88,34 @@ describe('RegisterForm', () => {
         oldPassword: 'AR3SRW6Iy',
         newPassword: 'ar3srw6iY',
       });
+    });
+  });
+
+  it('shows a wrong password error with a wrong password', async () => {
+    const inputFields = renderFormAndTargetInputs();
+    const submitButton = screen.getByRole('button', { name: /confirm/i });
+    const successInfosEdit = {
+      data: {},
+    };
+    const failureLoginOrToken = {
+      response: {
+        status: 401,      
+      },
+    };
+
+    (axios.post as jest.MockedFunction<typeof axios.post>).mockRejectedValueOnce(failureLoginOrToken); // Verif login avant edit
+    (axios.get as jest.MockedFunction<typeof axios.patch>).mockResolvedValueOnce(failureLoginOrToken); // Verif token avant edit
+    (axios.patch as jest.MockedFunction<typeof axios.patch>).mockResolvedValueOnce(successInfosEdit); // Edit infos
+    
+    await userEvent.type(inputFields.oldPassword, 'ABCdef123');
+    await userEvent.type(inputFields.newPassword, 'ABCdef123');
+    await userEvent.tab();
+    expect(screen.queryAllByText('formT.errorMessages.password').length).toEqual(0);
+    await userEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(axios.post).toHaveBeenCalledWith('/login', { email: 'kilian.maigrot@gmail.com', password: 'ABCdef123' }); // Verif login
+      expect(screen.queryAllByText('formT.errorsTop.editWrongPassword').length).toEqual(1);
     });
   });
 });

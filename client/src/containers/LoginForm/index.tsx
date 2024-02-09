@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 
-import { useUserContext } from '../../context/user-context';
+import { useUserContext } from '../../context/userContext';
 import * as AxiosS from '../../services/axios.service';
 
 import InputComponent from '../../components/Input';
@@ -87,7 +87,11 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
   const launchLogin = async (userData: UserData): Promise<string> => {
     try {
       const response = await AxiosS.login(userData);  
-      const responseData = response.data as SuccessfulLoginResponse;   
+      const responseData = response.data as SuccessfulLoginResponse;    
+      onLogin(true);       
+      const d: Date = new Date();
+      d.setTime(d.getTime() + 60 * 60 * 1000);
+      document.cookie = `jwtToken=${responseData.token}; expires=${d.toUTCString()}; path=/; secure`;  
       setUser({
         idUser: responseData.user.id_user,
         name: responseData.user.name,
@@ -95,10 +99,6 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
         email: responseData.user.email,
         userLanguage: responseData.user.user_language,
       });      
-      onLogin(true);
-      const d: Date = new Date();
-      d.setTime(d.getTime() + 60 * 60 * 1000);
-      document.cookie = `jwtToken=${responseData.token}; expires=${d.toUTCString()}; path=/; secure`;
       return 'loginOk';
     } catch (error: unknown) {   
       const isUnauthorizedError = (error as AxiosError).response?.status === 401;

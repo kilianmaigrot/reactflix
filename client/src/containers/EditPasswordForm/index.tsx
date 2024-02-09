@@ -8,7 +8,7 @@ import InputComponent from '../../components/Input';
 import * as SC from './form.style';
 import FormUtils from '../../utils/formUtils';
 import useFormValues from '../../hooks/useFormValues';
-import { useUserContext } from '../../context/user-context';
+import { useUserContext } from '../../context/userContext';
 
 const EditPasswordFormComponent: FC = () => {
   const { t } = useTranslation();

@@ -1,7 +1,7 @@
 import React, { FC, StrictMode, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useUserContext } from '../../context/user-context';
+import { useUserContext } from '../../context/userContext';
 import HeaderPageComponent from '../../components/Header';
 import BodyPageComponent from '../../components/Body';
 import StyledLogoutMessage from './logout.style';

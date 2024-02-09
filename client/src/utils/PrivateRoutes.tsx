@@ -5,6 +5,6 @@ interface PrivateRoutesProps {
   isAuthenticated: boolean;
 }
 
-const PrivateRoutes: FC<PrivateRoutesProps> = ({ isAuthenticated }) => (isAuthenticated ? <Outlet /> : <Navigate to='/login/testRedirection' replace />);
+const PrivateRoutes: FC<PrivateRoutesProps> = ({ isAuthenticated }) => (isAuthenticated ? <Outlet /> : <Navigate to='/login/' replace />);
 
 export default PrivateRoutes;

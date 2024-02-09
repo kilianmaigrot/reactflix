@@ -2,9 +2,12 @@
 /client/node_modules
 /server/node_modules/*
 /client/node_modules/*
+/client/coverage
+/client/coverage/*
 /client-old/node_modules
 /client-old/node_modules/*
 /client/APIGuide.txt
 /notepad.js
+/notepadDom.html
 /client/src/containers/RegisterForm/index.tsx.backup
 /client/src/hooks/useFormValues.ts.backup

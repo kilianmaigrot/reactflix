@@ -3,7 +3,7 @@ import * as AxiosS from '../../services/axios.service';
 import * as SC from './toggleButton.style';
 import DrapeauFR from './img/DrapeauFR.jpg';
 import DrapeauUK from './img/DrapeauUK.jpg';
-import { useUserContext } from '../../context/user-context';
+import { useUserContext } from '../../context/userContext';
 
 interface LanguageToggleButtonProps {
   toggled: boolean;
@@ -18,7 +18,7 @@ const LanguageToggleButton: FC<LanguageToggleButtonProps> = ({ toggled }) => {
     idUser: string;
   }
 
-  const setLanguagesParameters = async (userLanguageSet: string, idUserSet: string) => {
+  const setLanguagesParameters = async (userLanguageSet: string, idUserSet: string) => {  
     const postData: PostDataType = {
       userLanguage: userLanguageSet,
       idUser: idUserSet,
@@ -32,7 +32,7 @@ const LanguageToggleButton: FC<LanguageToggleButtonProps> = ({ toggled }) => {
     }));
   };
 
-  const callback = () => {
+  const callback = () => {    
     toggle(!isToggled);
     setLanguagesParameters(isToggled ? 'frFr' : 'enUk', user?.idUser || '').catch(() => {});
   };
@@ -41,7 +41,7 @@ const LanguageToggleButton: FC<LanguageToggleButtonProps> = ({ toggled }) => {
     <SC.ToggleContainer>
       <SC.IconFlag src={DrapeauFR as string} alt='Drapeau FR' />
       <SC.ToggleLabel>
-        <SC.ToggleInput type='checkbox' defaultChecked={isToggled} onClick={callback} />
+        <SC.ToggleInput type='checkbox' defaultChecked={isToggled} onClick={callback} id='languageToggle' />
         <SC.ToggleSpan />
       </SC.ToggleLabel>
       <SC.IconFlag src={DrapeauUK as string} alt='Drapeau UK' />
