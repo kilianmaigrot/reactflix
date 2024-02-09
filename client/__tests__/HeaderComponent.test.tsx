@@ -1,4 +1,4 @@
-import { cleanup, render } from 'root/utils/test-utils';
+import { cleanup, render, screen } from 'root/utils/test-utils';
 import HeaderPageComponentWithTranslation from 'root/components/Header';
 import '@testing-library/jest-dom';
 import React from 'react';
@@ -22,7 +22,9 @@ describe('HeaderPageComponent logged', () => {
     const userNav = document.getElementById('userNav');
 
     expect(nonUserNav).toHaveStyle({ display: 'none' });
-    expect(userInfos).toHaveStyle({ display: 'flex' });
+    expect(userInfos).toHaveStyle({ display: 'flex' });    
+    const userNameDisplay: HTMLElement | null = screen.getByText(/kilian/i);
+    expect(userNameDisplay).toBeInTheDocument();
     expect(userNav).toHaveStyle({ display: 'inline' });
   });
 });
