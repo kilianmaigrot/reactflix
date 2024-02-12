@@ -53,21 +53,3 @@ describe('HeaderPageComponent non-logged', () => {
     expect(userNav).toHaveStyle({ display: 'none' });
   });
 });
-
-// Test 4: Test i18n translations
-// Depending on how you're testing translations, you can add tests to ensure translations are applied correctly.
-
-// Test 5: Test navigation links
-// Test clicking on navigation links and ensure that it redirects to the correct pages.
-
-// Test 6: Test component props
-// If your component has props, you can add tests to ensure they're handled correctly.
-
-// Test 7: Test interactions with useUserContext hook
-// If your component interacts with the useUserContext hook, add tests to ensure it works as expected.
-
-// Test 8: Test component layout and styling
-// Depending on your styling strategy, you can add tests to ensure the layout and styling are as expected.
-
-// Test 9: Test component behavior across different user authentication states
-// Ensure that the component behaves correctly for both authenticated and unauthenticated users.

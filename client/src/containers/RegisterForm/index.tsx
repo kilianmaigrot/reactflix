@@ -119,7 +119,8 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children }) => 
           errorMessage={inputValues.name.error}
           onBlur={handleBlur}
           value={inputValues.name.value}
-          onChange={handleChange}
+          onChange={handleChange}          
+          autoComplete='family-name'
         />
         <InputComponent
           name='surname'
@@ -130,6 +131,7 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children }) => 
           onBlur={handleBlur}
           value={inputValues.surname.value}
           onChange={handleChange}
+          autoComplete='given-name'
         />
         <InputComponent
           name='email'
@@ -140,6 +142,7 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children }) => 
           onBlur={handleBlur}
           value={inputValues.email.value}
           onChange={handleChange}
+          autoComplete='email'
         />
         <InputComponent
           name='password'
@@ -150,6 +153,7 @@ const RegisterFormComponent: FC<RegisterFormComponentProps> = ({ children }) => 
           onBlur={handleBlur}
           value={inputValues.password.value}
           onChange={handleChange}
+          autoComplete='new-password'
         />
         <SC.ButtonArea>
           <SC.FormButton type='submit'>{t('confirm')}</SC.FormButton>

@@ -106,6 +106,7 @@ const EditPasswordFormComponent: FC = () => {
           onBlur={handleBlur}
           value={inputValues.oldPassword.value}
           onChange={handleChange}
+          autoComplete='current-password'
         />
         <InputComponent
           name='newPassword'
@@ -116,6 +117,7 @@ const EditPasswordFormComponent: FC = () => {
           onBlur={handleBlur}
           value={inputValues.newPassword.value}
           onChange={handleChange}
+          autoComplete='new-password'
         />
         <SC.ButtonArea>
           <SC.FormButton type='submit'>{t('confirm')}</SC.FormButton>
