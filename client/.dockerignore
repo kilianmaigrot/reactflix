@@ -1,0 +1,12 @@
+./__tests__/
+./coverage/
+./mocks/
+./node_modules/
+./.env
+./.eslintrc.js
+./.prettierignore
+./.prettierrc
+./babel.config.js
+./http-common.js
+./jest.config.js
+./jest.config.full.js

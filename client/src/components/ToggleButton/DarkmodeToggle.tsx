@@ -22,7 +22,7 @@ const DarkmodeToggleButton: FC<DarkmodeToggleButtonProps> = ({ toggled }) => {
     <SC.ToggleContainer>
       <SC.IconLightmode $darkmode={isToggled} src={DarkModeIcon as string} alt='Dark Mode Icon' />
       <SC.ToggleLabel>
-        <SC.ToggleInput type='checkbox' defaultChecked={isToggled} onClick={callback} id='darkmodeToggle' />
+        <SC.ToggleInput type='checkbox' defaultChecked={!isToggled} onClick={callback} id='darkmodeToggle' />
         <SC.ToggleSpan />
       </SC.ToggleLabel>
       <SC.IconLightmode $darkmode={isToggled} src={LightModeIcon as string} alt='Light Mode Icon' />

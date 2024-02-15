@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  clientapp:
+    build: ./client
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client:/app/client
+    depends_on:
+      - serverapp
+
+  serverapp:
+    build: ./server
+    ports:
+      - 3001:3001
+    volumes:
+      - ./server:/app/server
+    depends_on:
+      - db
+
+  db:
+    container_name: applogin-db
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgredb/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: logintp
+      PGHOST: db
+
+volumes:
+  postgres_db:
+    driver: local

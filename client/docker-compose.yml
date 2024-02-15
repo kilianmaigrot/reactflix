@@ -1,0 +1,10 @@
+version: '0.1'
+
+services:
+  clientapp:
+    image: c1eac42b67ab37d28c93376e215b47bc89b828f9e37001d4599170a9bef9a6ee
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app
+      - /app/node_modules
