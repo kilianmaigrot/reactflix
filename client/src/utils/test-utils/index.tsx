@@ -1,4 +1,4 @@
-import React, { ReactElement, StrictMode, useMemo } from 'react';
+import React, { StrictMode, useMemo, PropsWithChildren } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
 import setUser, { UserContext } from 'root/context/userContext';
 import setStyleTheme, { StyleThemeContext } from 'root/context/styleContext';
@@ -24,10 +24,18 @@ const getStyleContextValue = () => {
   return contextValue;
 };
 
-const AllTheProviders = ({ children }: { children: React.ReactNode }) => (
+type GetUserContextValueType = ReturnType<typeof getUserContextValue>;
+type GetStyleContextValueType = ReturnType<typeof getStyleContextValue>;
+
+type ProviderProps = {
+  userContextValue?: GetUserContextValueType;
+  styleContextValue?: GetStyleContextValueType;
+};
+
+const AllTheProviders = ({ children, userContextValue, styleContextValue }: PropsWithChildren<ProviderProps>) => (
   <StrictMode>
-    <UserContext.Provider value={getUserContextValue()}>
-      <StyleThemeContext.Provider value={getStyleContextValue()}>
+    <UserContext.Provider value={userContextValue || getUserContextValue()}>
+      <StyleThemeContext.Provider value={styleContextValue || getStyleContextValue()}>
         <BrowserRouter>
           {children}
         </BrowserRouter>
@@ -36,10 +44,23 @@ const AllTheProviders = ({ children }: { children: React.ReactNode }) => (
   </StrictMode>
 );
 
+interface CustomRenderProps extends Omit<RenderOptions, 'wrapper'> {
+  userContextValue?: GetUserContextValueType;
+}
+
 const customRender = (
-  ui: ReactElement,
-  options?: Omit<RenderOptions, 'wrapper'>,
-) => render(ui, { wrapper: AllTheProviders, ...options });
+  ui: React.ReactElement,
+  { userContextValue, ...options }: CustomRenderProps = {},
+): void => {
+  render(ui, {
+    wrapper: (props: JSX.IntrinsicElements['div']) => (
+      <AllTheProviders userContextValue={userContextValue} styleContextValue={getStyleContextValue()}>
+        {props.children}
+      </AllTheProviders>
+    ),
+    ...options,
+  });
+};
 
 export * from '@testing-library/react';
 export { customRender as render };

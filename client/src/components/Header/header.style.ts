@@ -28,6 +28,7 @@ export const NavButton = styled.button`
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
   a {
     text-decoration: none;
+    color: black;
   }
 `;
 

@@ -3,9 +3,9 @@ const { Pool } = pg;
 
 const pool = new Pool ({
   user: "postgres",
-  host: "localhost",
+  host: "db",
   database: "logintp",
-  password: "AR3SRW6Iy",
+  password: "password",
   port: 5432
 });
 

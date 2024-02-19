@@ -11,6 +11,7 @@ interface InputComponentProps {
   value: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   autofocus?: boolean;
+  autoComplete: string;
 }
 
 const InputComponent: FC<InputComponentProps> = ({
@@ -23,6 +24,7 @@ const InputComponent: FC<InputComponentProps> = ({
   value,
   onChange,
   autofocus = false,
+  autoComplete,
 }: InputComponentProps) => (
   <SC.LabelContainer id={`${name}-label`} htmlFor={name}>
     {label}
@@ -37,7 +39,7 @@ const InputComponent: FC<InputComponentProps> = ({
       onBlur={(event) => onBlur(event)}
       value={value}
       onChange={(event) => onChange(event)}
-      autoComplete='off'
+      autoComplete={autoComplete}
       autoFocus={autofocus}
     />
   </SC.LabelContainer>

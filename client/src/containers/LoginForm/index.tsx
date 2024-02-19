@@ -149,6 +149,7 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
           value={inputValues.email.value}
           onChange={handleChange}
           autofocus
+          autoComplete='email'
         />
         <InputComponent
           name='password'
@@ -159,6 +160,7 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
           onBlur={handleBlur}
           value={inputValues.password.value}
           onChange={handleChange}
+          autoComplete='current-password'
         />
         <a href='/'>{t('formT.forgotPassword')}</a>
         <SC.ButtonArea>

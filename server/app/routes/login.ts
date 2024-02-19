@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction, Router } from 'express';
+import { Request, Response, NextFunction, Router, response } from 'express';
 import database from '../config/db.config';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -13,9 +13,9 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
     const email = req.body.email;    
     const password = req.body.password;
 
-    const result = await client.query('SELECT * FROM users WHERE email = $1', [email]);
-    
+    const result = await client.query('SELECT * FROM users WHERE email = $1', [email]);    
     client.release();
+    
     const passwordCrypted = result.rows && result.rows.length > 0 ? result.rows[0].password || '' : '';
     const passwordOk = await bcrypt.compare(password, passwordCrypted)    
     

@@ -27,7 +27,7 @@ const Logout: FC = () => {
     };
 
     handleLogout();
-  }, [navigate, setUser]);
+  }, [navigate, setUser, user.userLanguage]);
 
   return (
     <StrictMode>

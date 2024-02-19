@@ -25,8 +25,9 @@ i18n
     },
   })
   .catch(() => {});
-async () => {
+// eslint-disable-next-line no-void
+void (async () => {
   await i18n.loadNamespaces(['translation']);
-};
+})();
 
 export default i18n;

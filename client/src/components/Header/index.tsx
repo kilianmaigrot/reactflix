@@ -7,7 +7,7 @@ interface HeaderComponentProps extends WithTranslation {}
 
 const HeaderPageComponent: FC<HeaderComponentProps> = ({ t }) => {
   const { user } = useUserContext();
-  const displayNav = !!(user === null || !user.idUser || user.idUser === null);
+  const displayNav = !!(user === null || !user.idUser || user.idUser === null || user.idUser === '');
 
   return (
     <SC.PageHeader>

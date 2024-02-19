@@ -42,11 +42,6 @@ export const useUserContext = (): UserContextProps => {
   return context;
 };
 
-export const getUserLanguage = () => {
-  const { user } = useContext(UserContext);
-  return user?.userLanguage;
-};
-
 interface UserProviderProps {
   children: ReactNode;
 }
