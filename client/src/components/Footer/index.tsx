@@ -10,7 +10,7 @@ const FooterPageComponent: React.FC<FooterComponentProps> = () => {
   const { styleTheme } = useStyleThemeContext();
   const { user } = useUserContext();
 
-  const isDarkmodeToggled = styleTheme === 'dark-mode';
+  const isDarkmodeToggled = styleTheme === 'light-mode';
   const isLanguageToggled = user?.userLanguage === 'enUk';
 
   return (

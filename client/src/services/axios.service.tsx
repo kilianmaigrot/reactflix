@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:3001'; // Paramètre app directe
-// axios.defaults.baseURL = 'http://serverapp-1:3001'; // Paramètre app container docker
 
 export const login = (postData: object): Promise<AxiosResponse<object>> => axios
   .post('/login', postData)
