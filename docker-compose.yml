@@ -20,7 +20,7 @@ services:
 
   serverapp:
     build:
-      context: ./server
+      context: ./server21
       dockerfile: Dockerfile
     ports:
       - 3001:3001
@@ -101,7 +101,7 @@ services:
 volumes:
   postgres_db:
     driver: local
-
+    
 networks:
   default:
     name: kong-net
