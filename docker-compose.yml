@@ -13,6 +13,10 @@ services:
       - serverapp
     extra_hosts:
       - "localhost:host-gateway"
+    x-develop:
+      watch:
+        - action: rebuild
+        - path: .
 
   serverapp:
     build:
@@ -26,21 +30,26 @@ services:
       - postgres
     extra_hosts:
       - "localhost:host-gateway"
+    x-develop:
+      watch:
+        - action: rebuild
+        - path: .
 
-  kong-bootstrap:
-    image: kong:latest
-    hostname: kong-bootstrap
-    container_name: kong-bootstrap
-    depends_on:
-      - postgres
-    environment:
-      KONG_DATABASE: postgres
-      KONG_PG_HOST: db
-      KONG_PG_DATABASE: logintp
-      KONG_PG_USER: postgres
-      KONG_PG_PASSWORD: password
-    command: "kong migrations bootstrap"
-    restart: 'on-failure'
+
+  # kong-bootstrap:
+  #   image: kong:latest
+  #   hostname: kong-bootstrap
+  #   container_name: kong-bootstrap
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     KONG_DATABASE: postgres
+  #     KONG_PG_HOST: db
+  #     KONG_PG_DATABASE: logintp
+  #     KONG_PG_USER: postgres
+  #     KONG_PG_PASSWORD: password
+  #   command: "kong migrations bootstrap"
+  #   restart: 'on-failure'
 
   kong:
     image: kong:latest
