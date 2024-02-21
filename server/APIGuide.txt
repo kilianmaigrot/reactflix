@@ -1,6 +1,6 @@
 API
 
-    Route /login
+    Route /login            POST
         Body : email, password
         Success :
             response.status = 200
@@ -22,7 +22,7 @@ API
             response.status = 500
             response.data = err
 
-    Route /login/verifyToken
+    Route /login/verifyToken            GET
         Headers : { Authorization: `Bearer ${token}` }
         Success :
             response.status = 200
@@ -35,7 +35,7 @@ API
             response.status = 500
             response.data = err
 
-    Route /users
+    Route /users            GET
         No headers or body
         Success :
             response.status = 200
@@ -54,7 +54,7 @@ API
             response.status = 500
             response.data = err
 
-    Route /users/register
+    Route /users/register           POST
         Body : name, surname, email, password
 
         Success :
@@ -69,7 +69,7 @@ API
             response.status = 500
             response.data = err
 
-    Route /users/updateLanguage
+    Route /users/updateLanguage         PATCH
         Body : idUser, userLanguage
         Success :
             response.status = 200
@@ -78,7 +78,7 @@ API
             response.status = 500
             response.data = err
 
-    Route /users/updateUser
+    Route /users/updateUser         PATCH
         Body : idUser, name, surname, email
         Success :
             response.status = 200
@@ -87,7 +87,7 @@ API
             response.status = 500
             response.data = err
 
-    Route /users/updatePassword
+    Route /users/updatePassword         PATCH
         Body : idUser, password
         Success :
             response.status = 200

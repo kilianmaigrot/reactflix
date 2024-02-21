@@ -12,6 +12,19 @@ const corsOptions: cors.CorsOptions = {
 };
 router.use(cors(corsOptions));
 app.use(cors(corsOptions));
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  if (req.method === 'OPTIONS') {
+    res.status(204).end();
+  } else {
+    next();
+  }
+});
+
 app.use(router);
 
 // Parsing des requêtes entrantes en json et URL-encoded

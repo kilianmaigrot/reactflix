@@ -23,3 +23,6 @@
 // screen.debug();
 
 // Beekeeper
+
+// Localhost
+// host.docker.internal
