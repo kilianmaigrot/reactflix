@@ -29,14 +29,15 @@ const FormUtilsComponent = () => {
 
   // Define top-level errors
   const errorsTop: ErrorsTopProps = {
-    errorLogin: t('formT.errorsTop.errorLogin'), // Corrected usage
-    errorServer: t('formT.errorsTop.errorServer'), // Corrected usage
+    errorLogin: t('formT.errorsTop.errorLogin'),
+    errorServer: t('formT.errorsTop.errorServer'),
+    errorAPILimiting: t('formT.errorsTop.errorAPILimiting'),
     errorExistingUser: t('formT.errorsTop.errorExistingUser'),
-    errorToken: t('formT.errorsTop.errorToken'), // Corrected usage
-    inscriptionOk: t('formT.errorsTop.inscriptionOk'), // Corrected usage
-    editOk: t('formT.errorsTop.editOk'), // Corrected usage
-    editWrongPassword: t('formT.errorsTop.editWrongPassword'), // Corrected usage
-    editPasswordSuccess: t('formT.errorsTop.editPasswordSuccess'), // Corrected usage
+    errorToken: t('formT.errorsTop.errorToken'),
+    inscriptionOk: t('formT.errorsTop.inscriptionOk'),
+    editOk: t('formT.errorsTop.editOk'),
+    editWrongPassword: t('formT.errorsTop.editWrongPassword'),
+    editPasswordSuccess: t('formT.errorsTop.editPasswordSuccess'),
   };
 
   // Define regex patterns

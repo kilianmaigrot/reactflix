@@ -17,6 +17,8 @@ services:
       watch:
         - action: rebuild
         - path: .
+    networks:
+      - default
 
   serverapp:
     build:
@@ -34,7 +36,12 @@ services:
       watch:
         - action: rebuild
         - path: .
+    networks:
+      - default
 
+  #######################
+  # Config Kong DB-mode #
+  #######################
 
   # kong-bootstrap:
   #   image: kong:latest
@@ -51,35 +58,62 @@ services:
   #   command: "kong migrations bootstrap"
   #   restart: 'on-failure'
 
+  # kong:
+  #   image: kong:latest
+  #   hostname: kong
+  #   container_name: kong
+  #   restart: always
+  #   depends_on:
+  #     - postgres
+  #   ports:
+  #     - "8000:8000"
+  #     - "8443:8443"
+  #     - "8001:8001"
+  #     - "8444:8444"
+  #     - "8002:8002"
+  #   environment:
+  #     KONG_DATABASE: postgres
+  #     KONG_PG_HOST: db
+  #     KONG_PG_DATABASE: logintp
+  #     KONG_PG_USER: postgres
+  #     KONG_PG_PASSWORD: password
+  #     KONG_PROXY_ACCESS_LOG: /dev/stdout
+  #     KONG_ADMIN_ACCESS_LOG: /dev/stdout
+  #     KONG_PROXY_ERROR_LOG: /dev/stderr
+  #     KONG_ADMIN_ERROR_LOG: /dev/stderr
+  #     KONG_ADMIN_LISTEN: "0.0.0.0:8001, 0.0.0.0:8444 ssl"
+  #     KONG_ADMIN_GUI_PATH: /manager
+  #     KONG_ADMIN_GUI_URL: http://localhost:8002/manager
+  #   command: "kong start --vv"
+  #   extra_hosts:
+  #     - "localhost:host-gateway"
+  #   networks:
+  #     - default
+
+  #########################################
+  # Config Kong DBless / declarative mode #
+  #########################################
+
   kong:
-    image: kong:latest
-    hostname: kong
-    container_name: kong
-    restart: always
-    depends_on:
-      - postgres
-    ports:
-      - "8000:8000"
-      - "8443:8443"
-      - "8001:8001"
-      - "8444:8444"
-      - "8002:8002"
+    build:
+      context: ./kong
+      dockerfile: Dockerfile
+    container_name: kong_nodb
+    networks:
+      - default
     environment:
-      KONG_DATABASE: postgres
-      KONG_PG_HOST: db
-      KONG_PG_DATABASE: logintp
-      KONG_PG_USER: postgres
-      KONG_PG_PASSWORD: password
-      KONG_PROXY_ACCESS_LOG: /dev/stdout
-      KONG_ADMIN_ACCESS_LOG: /dev/stdout
-      KONG_PROXY_ERROR_LOG: /dev/stderr
-      KONG_ADMIN_ERROR_LOG: /dev/stderr
-      KONG_ADMIN_LISTEN: "0.0.0.0:8001, 0.0.0.0:8444 ssl"
-      KONG_ADMIN_GUI_PATH: /manager
-      KONG_ADMIN_GUI_URL: http://localhost:8002/manager
-    command: "kong start --vv"
-    extra_hosts:
-      - "localhost:host-gateway"
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: kong.yml
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://kong:8000"]
+      interval: 5s
+      timeout: 2s
+      retries: 15
+    ports:
+      - "8000:8000/tcp"
+      - "8001:8001/tcp"
+      - "8443:8443/tcp"
+      - "8444:8444/tcp"
 
   postgres:
     image: postgres:latest
@@ -97,6 +131,8 @@ services:
       PGHOST: db
     extra_hosts:
       - "localhost:host-gateway"
+    networks:
+      - default
 
 volumes:
   postgres_db:

@@ -12,3 +12,4 @@
 ./client/jest.config.full.js
 ./server/node_modules/
 ./server/APIGuide.txt
+./.vscode/
