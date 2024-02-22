@@ -22,7 +22,7 @@ services:
 
   serverapp:
     build:
-      context: ./server21
+      context: ./server
       dockerfile: Dockerfile
     ports:
       - 3001:3001
