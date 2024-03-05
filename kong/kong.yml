@@ -1,0 +1,373 @@
+_format_version: "1.1"
+
+services:
+  - connect_timeout: 60000
+    host: serverapp
+    name: list_users
+    path: /users
+    port: 3001
+    protocol: http
+    read_timeout: 60000
+    retries: 5
+    write_timeout: 60000
+    routes:
+    - name: list_users
+      methods:
+      - GET
+      - OPTIONS
+      paths:
+      - /listUsers
+      path_handling: v0
+      preserve_host: false
+      protocols:
+      - http
+      - https
+      regex_priority: 0
+      strip_path: true
+      https_redirect_status_code: 426
+      request_buffering: true
+      response_buffering: true
+
+  - connect_timeout: 60000
+    host: serverapp
+    name: login_user
+    path: /login
+    port: 3001
+    protocol: http
+    read_timeout: 60000
+    retries: 5
+    write_timeout: 60000
+    routes:
+    - name: login_user
+      methods:
+      - POST
+      - OPTIONS
+      paths:
+      - /loginUser
+      path_handling: v0
+      preserve_host: false
+      protocols:
+      - http
+      - https
+      regex_priority: 0
+      strip_path: true
+      https_redirect_status_code: 426
+      request_buffering: true
+      response_buffering: true
+      plugins:
+      - name: rate-limiting
+        config:
+          day: null
+          error_code: 429
+          error_message: rate-limiting
+          fault_tolerant: true
+          header_name: null
+          hide_client_headers: false
+          hour: null
+          limit_by: ip
+          minute: 5
+          month: null
+          path: null
+          policy: local
+          redis:
+            database: 0
+            host: null
+            password: null
+            port: 6379
+            server_name: null
+            ssl: false
+            ssl_verify: false
+            timeout: 2000
+            username: null
+          redis_database: 0
+          redis_host: null
+          redis_password: null
+          redis_port: 6379
+          redis_server_name: null
+          redis_ssl: false
+          redis_ssl_verify: false
+          redis_timeout: 2000
+          redis_username: null
+          second: null
+          sync_rate: -1
+          year: null
+        enabled: true
+        protocols:
+        - grpc
+        - grpcs
+        - http
+        - https
+
+  - connect_timeout: 60000
+    host: serverapp
+    name: register_user
+    path: /users/register
+    port: 3001
+    protocol: http
+    read_timeout: 60000
+    retries: 5
+    write_timeout: 60000
+    routes:
+      - name: register_user
+        methods:
+        - POST
+        - OPTIONS
+        paths:
+        - /registerUser
+        path_handling: v0
+        preserve_host: false
+        protocols:
+        - http
+        - https
+        regex_priority: 0
+        strip_path: true
+        https_redirect_status_code: 426
+        request_buffering: true
+        response_buffering: true
+
+  - connect_timeout: 60000
+    host: serverapp
+    name: update_user_infos
+    path: /users/updateUser
+    port: 3001
+    protocol: http
+    read_timeout: 60000
+    retries: 5
+    write_timeout: 60000
+    routes:
+      - name: update_user_infos
+        methods:
+        - PATCH
+        - OPTIONS
+        paths:
+        - /updateUserInfos
+        path_handling: v0
+        preserve_host: false
+        protocols:
+        - http
+        - https
+        regex_priority: 0
+        strip_path: true
+        https_redirect_status_code: 426
+        request_buffering: true
+        response_buffering: true
+
+  - connect_timeout: 60000
+    host: serverapp
+    name: update_user_language
+    path: /users/updateLanguage
+    port: 3001
+    protocol: http
+    read_timeout: 60000
+    retries: 5
+    write_timeout: 60000
+    routes:
+    - name: update_user_language
+      methods:
+      - PATCH
+      - OPTIONS
+      paths:
+      - /updateUserLanguage
+      path_handling: v0
+      preserve_host: false
+      protocols:
+      - http
+      - https
+      regex_priority: 0
+      strip_path: true
+      https_redirect_status_code: 426
+      request_buffering: true
+      response_buffering: true
+
+  - connect_timeout: 60000
+    host: serverapp
+    name: update_user_password
+    path: /users/updatePassword
+    port: 3001
+    protocol: http
+    read_timeout: 60000
+    retries: 5
+    write_timeout: 60000
+    routes:
+      - name: update_user_password
+        methods:
+        - PATCH
+        - OPTIONS
+        paths:
+        - /updateUserPassword
+        path_handling: v0
+        preserve_host: false
+        protocols:
+        - http
+        - https
+        regex_priority: 0
+        strip_path: true
+        https_redirect_status_code: 426
+        request_buffering: true
+        response_buffering: true
+
+  - connect_timeout: 60000
+    host: serverapp
+    name: verify_token
+    path: /login/verifyToken
+    port: 3001
+    protocol: http
+    read_timeout: 60000
+    retries: 5
+    write_timeout: 60000
+    routes:
+      - name: verify_token
+        methods:
+        - GET
+        - OPTIONS
+        paths:
+        - /verifyToken
+        path_handling: v0
+        preserve_host: false
+        protocols:
+        - http
+        - https
+        regex_priority: 0
+        strip_path: true
+        https_redirect_status_code: 426
+        request_buffering: true
+        response_buffering: true
+
+  - connect_timeout: 60000
+    host: serverapp
+    name: create_movie
+    path: /movies/createMovie
+    port: 3001
+    protocol: http
+    read_timeout: 60000
+    retries: 5
+    write_timeout: 60000
+    routes:
+    - name: create_movie
+      methods:
+      - POST
+      - OPTIONS
+      paths:
+      - /createMovie
+      path_handling: v0
+      preserve_host: false
+      protocols:
+      - http
+      - https
+      regex_priority: 0
+      strip_path: true
+      https_redirect_status_code: 426
+      request_buffering: true
+      response_buffering: true
+
+  - connect_timeout: 60000
+    host: serverapp
+    name: get_all_movies_count
+    path: /movies/getAllMoviesCount
+    port: 3001
+    protocol: http
+    read_timeout: 60000
+    retries: 5
+    write_timeout: 60000
+    routes:
+    - name: get_all_movies_count
+      methods:
+      - POST
+      - OPTIONS
+      paths:
+      - /getAllMoviesCount
+      path_handling: v0
+      preserve_host: false
+      protocols:
+      - http
+      - https
+      regex_priority: 0
+      strip_path: true
+      https_redirect_status_code: 426
+      request_buffering: true
+      response_buffering: true
+
+  - connect_timeout: 60000
+    host: serverapp
+    name: get_some_movies
+    path: /movies/getSomeMovies
+    port: 3001
+    protocol: http
+    read_timeout: 60000
+    retries: 5
+    write_timeout: 60000
+    routes:
+    - name: get_some_movies
+      methods:
+      - POST
+      - OPTIONS
+      paths:
+      - /getSomeMovies
+      path_handling: v0
+      preserve_host: false
+      protocols:
+      - http
+      - https
+      regex_priority: 0
+      strip_path: true
+      https_redirect_status_code: 426
+      request_buffering: true
+      response_buffering: true
+
+  - connect_timeout: 60000
+    host: serverapp
+    name: delete_movie_by_id
+    path: /movies/deleteMovieById
+    port: 3001
+    protocol: http
+    read_timeout: 60000
+    retries: 5
+    write_timeout: 60000
+    routes:
+    - name: delete_movie_by_id
+      methods:
+      - POST
+      - OPTIONS
+      paths:
+      - /deleteMovieById
+      path_handling: v0
+      preserve_host: false
+      protocols:
+      - http
+      - https
+      regex_priority: 0
+      strip_path: true
+      https_redirect_status_code: 426
+      request_buffering: true
+      response_buffering: true
+
+plugins:
+  - name: cors
+    config:
+      credentials: true
+      exposed_headers:
+        - X-Auth-Token
+      headers:
+        - Accept
+        - Accept-Version
+        - Authorization 
+        - Content-Length
+        - Content-MD5
+        - Content-Type
+        - Date
+        - X-Auth-Token
+      max_age: 3600
+      methods:
+        - GET
+        - HEAD
+        - PUT
+        - PATCH
+        - POST
+        - DELETE
+        - OPTIONS
+        - TRACE
+        - CONNECT
+      origins:
+        - http://localhost:3000
+      preflight_continue: false
+      private_network: false

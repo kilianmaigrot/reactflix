@@ -1,20 +1,23 @@
 {
   "login": "Log In",
   "signUp": "Register",
-  "welcomeMessage": "Welcome to the React Login app",
+  "welcomeMessage": "Welcome to the ReactFli app",
 
   "pageName": {
-    "indexName": "React - Home page",
-    "registerName": "React - Register now",
-    "loginName": "React - Login",
-    "logoutName": "React - Logout",
-    "userpageName": "React - Userpage"
+    "indexName": "ReactFlix - Home page",
+    "registerName": "ReactFlix - Register now",
+    "loginName": "ReactFlix - Login",
+    "logoutName": "ReactFlix - Logout",
+    "userpageName": "ReactFlix - Userpage",
+    "moviesListName": "ReactFlix - Movies list",
+    "createMovieName": "ReactFlix - Create movie"
   },
 
   "formT": {
     "editInfosFormTitle": "Edit my informations",
     "editPasswordFormTitle": "Change my password",
-    "loginFormTitle": "Log into <span>React</span>",
+    "loginFormTitle": "Log into <span>ReactFlix</span>",
+    "createMovieFormTitle": "Add a movie",
     "backIndex": "Back to home",
     "forgotPassword": "Forgot password ?",
     "noAccount": "Need an account ? <a href='/inscription'>Register here</a>",
@@ -36,6 +39,18 @@
     "passwordOldLabel": "Current password",
     "passwordNewLabel": "New password",
 
+    "movieTitleLabel": "Movie title",
+    "movieYearLabel": "Release year",
+    "movieDirectorLabel": "Directed by",
+    "movieGenreLabel": "Film genre",
+    "movieRuntimeLabel": "Runtime (in minutes)",
+    "movieSummaryLabel": "Movie synopsis",
+    "moviePosterLinkLabel": "Link to the movie poster",
+    "movieTrailerLinkLabel": "Link to the movie trailer",
+    "movieActorPartLabel": "Main actors",
+    "movieActorName": "Actor name",
+    "movieActorRole": "Actor role",
+
     "confirm": "Confirm",
     "cancel": "Cancel",
 
@@ -52,6 +67,7 @@
       "errorServer": "Network error, please try again in a few minutes or contat your network administrator",
       "errorAPILimiting": "Too many unsuccessful attempts, please retry in a minute",
       "errorExistingUser": "An user already exists with this email address",
+      "errorExistingMovie": "This movie is already in the database",
       "errorToken": "You need to be logged in to access this page",
       "inscriptionOk": "Register complete, you can now log in with your credentials",
       "editOk": "Your information has been edited successfully!",
@@ -67,6 +83,8 @@
   "userInfos": "My informations",
   "editInfos": "Edit my informations",
   "editPassword": "Change my password",
+  "accessMovies": "Movie List",
+  "createMovie": "Add a new movie",
 
   "userMessage": "Welcome {{surname}} {{name}}, you are user n°{{idUser}}, now logged in with your email {{email}}.",
   "logoutMessage": "Logging out",

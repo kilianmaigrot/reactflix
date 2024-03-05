@@ -20,5 +20,4 @@ const FooterPageComponent: React.FC<FooterComponentProps> = () => {
     </PageFooter>
   );
 };
-
 export default FooterPageComponent;

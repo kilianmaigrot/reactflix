@@ -45,6 +45,9 @@ router.use('/login', login);
 import users from './app/routes/users';
 router.use('/users', users);
 
+import movies from './app/routes/movies';
+router.use('/movies', movies);
+
 // Gestion des erreurs
 router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);

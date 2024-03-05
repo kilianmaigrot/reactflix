@@ -41,7 +41,7 @@ router.get("/verifyToken", async (req: Request, res: Response, next: NextFunctio
       return;
     }
     const token = authorizationHeader.split(' ')[1];
-    const tokenConfirmed = await jwt.verify(token, process.env.JWT_SECRET || '123456789');
+    const tokenConfirmed = jwt.verify(token, process.env.JWT_SECRET || '123456789');
     if (tokenConfirmed) {
       res.status(200).json({ message: "Token verification success." });
     } else {

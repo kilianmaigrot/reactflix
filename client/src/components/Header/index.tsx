@@ -2,20 +2,25 @@ import React, { FC } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import * as SC from './header.style';
 import { useUserContext } from '../../context/userContext';
+import logo from './img/ReactFlix.png';
 
 interface HeaderComponentProps extends WithTranslation {}
 
+// eslint-disable-next-line complexity
 const HeaderPageComponent: FC<HeaderComponentProps> = ({ t }) => {
-  const { user } = useUserContext();
-  const displayNav = !!(user === null || !user.idUser || user.idUser === null || user.idUser === '');
+  const { user } = useUserContext();  
+  const userIsLogged = !(user === null || !user.idUser || user.idUser === null || user.idUser === '');
+  const userIsAdmin = !(user === null || !user.userRole || user.userRole === null || user.userRole !== 'admin');
+
+  const logoReactflix = logo as string;
 
   return (
     <SC.PageHeader>
       <a href='/' aria-label='Link to Home Page'>
-        <SC.HeaderImage src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/React_Logo_SVG.svg/langfr-1024px-React_Logo_SVG.svg.png' />
+        <SC.HeaderImage src={logoReactflix} alt='Logo ReactFlix' />
       </a>
 
-      <SC.NavContainer $display={displayNav} id='nonUserNav'>
+      <SC.NavContainer $display={!userIsLogged} id='nonUserNav'>
         <SC.NavButton>
           <a href='/login'>{t('login')}</a>
         </SC.NavButton>
@@ -24,14 +29,29 @@ const HeaderPageComponent: FC<HeaderComponentProps> = ({ t }) => {
         </SC.NavButton>
       </SC.NavContainer>
 
-      <SC.UserInfos $display={!displayNav} href='/user' id='userInfos'>
+      <SC.NavContainer $display={(userIsLogged && !userIsAdmin)} id='userNav'>
+        <SC.NavButton>
+          <a href='/moviesList'>{t('accessMovies')}</a>
+        </SC.NavButton>
+      </SC.NavContainer>
+
+      <SC.NavContainer $display={(userIsLogged && userIsAdmin)} id='adminNav'>
+        <SC.NavButton>
+          <a href='/moviesList'>{t('accessMovies')}</a>
+        </SC.NavButton>
+        <SC.NavButton>
+          <a href='/createMovie'>{t('createMovie')}</a>
+        </SC.NavButton>
+      </SC.NavContainer>
+
+      <SC.UserInfos $display={userIsLogged} href='/user' id='userInfos'>
         <p>
           {t('welcome')}
           {user?.surname}
         </p>
       </SC.UserInfos>
 
-      <SC.NavContainer $display={!displayNav} id='userNav'>
+      <SC.NavContainer $display={userIsLogged} id='userNav'>
         <SC.NavButton>
           <a href='/user'>{t('userInfos')}</a>
         </SC.NavButton>

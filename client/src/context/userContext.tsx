@@ -16,11 +16,16 @@ export interface User {
   surname: string;
   email: string;
   userLanguage: string;
+  userRole: string;
 }
 
 export interface UserContextProps {
   user: User;
   setUser: Dispatch<SetStateAction<User>>;
+}
+
+interface UserProviderProps {
+  children: ReactNode;
 }
 
 export const UserContext = createContext<UserContextProps>({
@@ -29,7 +34,8 @@ export const UserContext = createContext<UserContextProps>({
     name: '',
     surname: '',
     email: '',
-    userLanguage: '',
+    userLanguage: 'frFr',
+    userRole: '',
   },
   setUser: () => {},
 });
@@ -41,10 +47,6 @@ export const useUserContext = (): UserContextProps => {
   }
   return context;
 };
-
-interface UserProviderProps {
-  children: ReactNode;
-}
 
 export const UserProvider: FC<UserProviderProps> = ({ children }) => {
   const storedUser = JSON.parse(sessionStorage.getItem('user') || 'null') as User;

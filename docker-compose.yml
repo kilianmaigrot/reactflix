@@ -98,12 +98,13 @@ services:
     build:
       context: ./kong
       dockerfile: Dockerfile
-    container_name: kong_nodb
+    container_name: kong_DBLess
     networks:
       - default
     environment:
       KONG_DATABASE: "off"
       KONG_DECLARATIVE_CONFIG: kong.yml
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
     healthcheck:
       test: ["CMD", "curl", "-f", "http://kong:8000"]
       interval: 5s

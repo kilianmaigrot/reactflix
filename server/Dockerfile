@@ -7,7 +7,7 @@ COPY package.json package-lock.json ./
 RUN npm install --force
 COPY . ./
 
-RUN chown -R node:node node_modules
+# RUN chown -R node:node node_modules
 
 EXPOSE 3001
 

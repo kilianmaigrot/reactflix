@@ -10,7 +10,6 @@ const Logout: FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { user, setUser } = useUserContext();
-
   useEffect(() => {
     const handleLogout = () => {
       setUser({
@@ -19,6 +18,7 @@ const Logout: FC = () => {
         surname: '',
         email: '',
         userLanguage: user.userLanguage,
+        userRole: '',
       });
       document.cookie = 'jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
       setTimeout(() => {

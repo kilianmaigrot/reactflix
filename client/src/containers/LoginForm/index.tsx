@@ -5,13 +5,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 
-import { useUserContext } from '../../context/userContext';
-import * as AxiosS from '../../services/axios.service';
+import { useUserContext } from 'context/userContext';
+import * as AxiosS from 'services/axios.service';
 
-import InputComponent from '../../components/Input';
+import InputComponent from 'components/Input';
+import FormUtils from 'utils/formUtils';
+import useFormValues from 'hooks/useFormValues';
 import * as SC from './form.style';
-import FormUtils from '../../utils/formUtils';
-import useFormValues from '../../hooks/useFormValues';
 
 interface LoginFormComponentProps {
   children: ReactNode;
@@ -76,6 +76,7 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
       surname: string;
       email: string;
       user_language: string;
+      user_role: string;
     };
   }
 
@@ -88,16 +89,17 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
     try {
       const response = await AxiosS.login(userData);        
       const responseData = response.data as SuccessfulLoginResponse;    
-      onLogin(true);       
+      onLogin(true);
       const d: Date = new Date();
       d.setTime(d.getTime() + 60 * 60 * 1000);
-      document.cookie = `jwtToken=${responseData.token}; expires=${d.toUTCString()}; path=/; secure`;  
+      document.cookie = `jwtToken=${responseData.token}; expires=${d.toUTCString()}; path=/; secure`;        
       setUser({
         idUser: responseData.user.id_user,
         name: responseData.user.name,
         surname: responseData.user.surname,
         email: responseData.user.email,
         userLanguage: responseData.user.user_language,
+        userRole: responseData.user.user_role,
       });      
       return 'loginOk';
     } catch (error: unknown) {   
@@ -124,7 +126,7 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
     
     if (!problemDetected) {
       launchLogin(submitData)
-        .then((result) => {
+        .then((result) => {         
           result === 'loginOk' ? navigate('/user') : setErrorTop('errorExistingUser');
         })
         .catch((err) => {

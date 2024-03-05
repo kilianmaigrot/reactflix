@@ -33,6 +33,7 @@ const FormUtilsComponent = () => {
     errorServer: t('formT.errorsTop.errorServer'),
     errorAPILimiting: t('formT.errorsTop.errorAPILimiting'),
     errorExistingUser: t('formT.errorsTop.errorExistingUser'),
+    errorExistingMovie: t('formT.errorsTop.errorExistingMovie'),
     errorToken: t('formT.errorsTop.errorToken'),
     inscriptionOk: t('formT.errorsTop.inscriptionOk'),
     editOk: t('formT.errorsTop.editOk'),

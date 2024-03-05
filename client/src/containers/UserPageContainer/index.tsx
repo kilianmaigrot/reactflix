@@ -25,10 +25,10 @@ const UserPageComponent: FC = () => {
           })}
         </SC.TextParagraph>
         <SC.ButtonArea>
-          <SC.FormButton onClick={() => setDisplayedForm('editInfos')} aria-label={t('editInfos')}>
+          <SC.FormButton onClick={() => (displayedForm === 'editInfos' ? setDisplayedForm('none') : setDisplayedForm('editInfos'))} aria-label={t('editInfos')}>
             {t('editInfos')}
           </SC.FormButton>
-          <SC.FormButton onClick={() => setDisplayedForm('editPassword')} aria-label={t('editPassword')}>
+          <SC.FormButton onClick={() => (displayedForm === 'editPassword' ? setDisplayedForm('none') : setDisplayedForm('editPassword'))} aria-label={t('editPassword')}>
             {t('editPassword')}
           </SC.FormButton>
           <SC.FormButton>

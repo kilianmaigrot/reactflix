@@ -78,3 +78,23 @@ export const updatePassword = async (postData: {
   }
   return undefined;
 };
+
+export const createMovie = (postData: object): Promise<AxiosResponse<object>> => axios
+  .post('/createMovie', postData)
+  .then((response) => response)
+  .catch((error) => Promise.reject(error));
+
+export const getAllMoviesCount = (postData: object): Promise<AxiosResponse<object>> => axios
+  .post('/getAllMoviesCount', postData)
+  .then((response) => response)
+  .catch((error) => Promise.reject(error));
+
+export const getSomeMovies = (postData: object): Promise<AxiosResponse<object>> => axios
+  .post('/getSomeMovies', postData)
+  .then((response) => response)
+  .catch((error) => Promise.reject(error));
+
+export const deleteMovieById = (postData: object): Promise<AxiosResponse<object>> => axios
+  .post('/deleteMovieById', postData)
+  .then((response) => response)
+  .catch((error) => Promise.reject(error));

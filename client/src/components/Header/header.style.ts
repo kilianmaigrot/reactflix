@@ -9,7 +9,7 @@ export const PageHeader = styled.header`
 `;
 
 export const HeaderImage = styled.img`
-  max-width: 60px;
+  max-width: 240px;
   width: 100%;
   margin-left: 1rem;
 `;

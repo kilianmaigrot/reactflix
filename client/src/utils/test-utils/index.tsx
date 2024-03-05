@@ -10,6 +10,7 @@ const userData = {
   surname: 'Kilian',
   email: 'kilian.maigrot@gmail.com',
   userLanguage: 'frFr',
+  userRole: 'admin',
 };
 
 const styleTheme = 'dark-mode';

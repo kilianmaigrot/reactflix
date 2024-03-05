@@ -1,21 +1,24 @@
 {
   "login": "Login",
   "signUp": "Inscription",
-  "welcomeMessage": "Bienvenue sur cette application en React",
+  "welcomeMessage": "Bienvenue sur l'application ReactFlix",
 
   "pageName": {
-    "indexName": "React - Accueil",
-    "registerName": "React - Insciption",
-    "loginName": "React - Connexion",
-    "logoutName": "React - Déconnexion",
-    "userpageName": "React - Page utilisateur"
+    "indexName": "ReactFlix - Accueil",
+    "registerName": "ReactFlix - Insciption",
+    "loginName": "ReactFlix - Connexion",
+    "logoutName": "ReactFlix - Déconnexion",
+    "userpageName": "ReactFlix - Page utilisateur",
+    "moviesListName": "ReactFlix - Liste des Films",
+    "createMovieName": "ReactFlix - Créer un film"
   },
 
   "formT": {
     "editInfosFormTitle": "Modifier mes informations",
     "editPasswordFormTitle": "Changer mon mot de passe",
     "backIndex": "Retour à l'accueil",
-    "loginFormTitle": "Se connecter <span>à React</span>",
+    "loginFormTitle": "Se connecter <span>à ReactFlix</span>",    
+    "createMovieFormTitle": "Ajouter un film",
     "forgotPassword": "Mot de passe oublié ?",
     "noAccount": "Pas de compte ? <a href='/inscription'>Veuillez vous enregistrer ici</a>",
 
@@ -36,6 +39,18 @@
     "passwordOldLabel": "Mot de passe actuel",
     "passwordNewLabel": "Nouveau mot de passe",
 
+    "movieTitleLabel": "Titre du film",
+    "movieYearLabel": "Année de sortie",
+    "movieDirectorLabel": "Réalisateur",
+    "movieGenreLabel": "Genre cinématographique",
+    "movieRuntimeLabel": "Durée (en minutes)",
+    "movieSummaryLabel": "Résumé du film",
+    "moviePosterLinkLabel": "Lien vers l'affiche du film",
+    "movieTrailerLinkLabel": "Lien vers la bande annonce du film",
+    "movieActorPartLabel": "Acteurs principaux",
+    "movieActorName": "Nom de l'acteur",
+    "movieActorRole": "Rôle de l'acteur",
+
     "errorMessages": {
       "empty": "Champ obligatoire",
       "name": "Merci de saisir un nom avec au moins 2 caractères",
@@ -49,6 +64,7 @@
       "errorServer": "Connexion impossible, veuillez rententer la connexion d'ici quelques minutes ou contactez votre administrateur réseau",
       "errorAPILimiting": "Trop de tentatives infructueuses, merci de retenter dans une minute",
       "errorExistingUser": "Un utilisateur existe déjà avec cette adresse email",
+      "errorExistingMovie": "Ce film existe déjà dans la Database",
       "errorToken": "Merci de vous connecter pour accéder à cette page",
       "inscriptionOk": "Inscription validée, vous pouvez maintenant vous connecter avec vos identifiants",
       "editOk": "Les modifications ont bien été prises en compte !",
@@ -64,6 +80,8 @@
   "userInfos": "Mes informations",
   "editInfos": "Modifier mes informations",
   "editPassword": "Changer mon mot de passe",
+  "accessMovies": "Liste des Films",
+  "createMovie": "Ajouter un film",
 
   "userMessage": "Bonjour {{surname}} {{name}}, vous êtes l'utilisateur n°{{idUser}}, connecté avec votre adresse email {{email}}.",
   "logoutMessage": "Déconnexion en cours",
