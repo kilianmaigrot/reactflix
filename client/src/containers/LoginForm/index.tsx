@@ -86,7 +86,7 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
 
   const launchLogin = async (userData: UserData): Promise<string> => {
     try {
-      const response = await AxiosS.login(userData);  
+      const response = await AxiosS.login(userData);        
       const responseData = response.data as SuccessfulLoginResponse;    
       onLogin(true);       
       const d: Date = new Date();
@@ -101,8 +101,10 @@ const LoginFormComponent: FC<LoginFormComponentProps> = ({
       });      
       return 'loginOk';
     } catch (error: unknown) {   
-      const isUnauthorizedError = (error as AxiosError).response?.status === 401;
-      throw isUnauthorizedError ? new Error('errorLogin') : new Error('errorServer');
+      let errorThrown:Error | null = new Error('errorServer');
+      (error as AxiosError).response?.status === 401 && (errorThrown = new Error('errorLogin'));
+      (error as AxiosError).response?.status === 429 && (errorThrown = new Error('errorAPILimiting'));
+      throw errorThrown; 
     }
   };
 
